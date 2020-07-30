@@ -5,13 +5,13 @@ import thunk from 'redux-thunk'
 import surfspotsReducer from './reducers/surfspotsReducer'
 import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
-// import userReducer from './reducers/userReducer'
+import spotDetailReducer from './reducers/spotDetailReducer'
 
 const reducer = combineReducers({
   surfspots: surfspotsReducer,
   notification: notificationReducer,
   currentUser: userReducer,
-  // users: userReducer
+  spotDetail: spotDetailReducer,
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))

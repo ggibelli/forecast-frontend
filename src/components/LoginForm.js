@@ -4,11 +4,11 @@ import { login } from '../reducers/userReducer'
 import loginService from '../services/login'
 import { setNotification } from '../reducers/notificationReducer'
 import storage from '../utils/storage'
-import useField from '../utils/customHooks'
+import customHooks from '../utils/customHooks'
 
 const LoginForm = () => {
-  const username = useField('text')
-  const password = useField('password')
+  const username = customHooks.useField('text')
+  const password = customHooks.useField('password')
 
   const dispatch = useDispatch()
 
@@ -16,8 +16,8 @@ const LoginForm = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username,
-        password,
+        username: username.value,
+        password: password.value,
       })
       dispatch(login(user))
       dispatch(setNotification(`${user.name} welcome back!`))
@@ -38,7 +38,9 @@ const LoginForm = () => {
           password
           <input {...password} />
         </div>
-        <button id="login">login</button>
+        <button type="submit" id="login">
+          login
+        </button>
       </form>
     </div>
   )

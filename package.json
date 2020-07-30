@@ -45,7 +45,6 @@
   "devDependencies": {
     "@imaginary-cloud/eslint-config-react": "^1.0.1",
     "cypress": "^4.11.0",
-    "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-cypress": "^2.11.1",

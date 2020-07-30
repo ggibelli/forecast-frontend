@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  BrowserRouter as Router,
-  Switch, Route, Link
-} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 import Notification from './components/Notification'
 import ContinentList from './components/ContinentList'
@@ -18,7 +15,7 @@ import { initializeSpots } from './reducers/surfspotsReducer'
 import { login, logout } from './reducers/userReducer'
 
 const App = () => {
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -46,19 +43,21 @@ const App = () => {
   }
 
   const padding = {
-    padding: 5
+    padding: 5,
   }
 
   const navStyle = {
     margin: 10,
     padding: 10,
-    backgroundColor: 'lightgray'
+    backgroundColor: 'lightgray',
   }
 
   return (
     <Router>
       <div style={navStyle}>
-        <Link style={padding} to="/">All the spots</Link>
+        <Link style={padding} to="/">
+          All the spots
+        </Link>
         <span>
           {user.name} logged in <button onClick={handleLogout}>logout</button>
         </span>
@@ -88,7 +87,6 @@ const App = () => {
           <SurfspotList />
         </Route>
       </Switch>
-
     </Router>
   )
 }
