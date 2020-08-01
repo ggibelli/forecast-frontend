@@ -6,17 +6,20 @@ import Notification from './components/Notification'
 import ContinentList from './components/ContinentList'
 import CountryList from './components/CountryList'
 import LoginForm from './components/LoginForm'
+import RegistrationForm from './components/RegistrationForm'
 import RegionList from './components/RegionList'
 import SurfspotDetail from './components/SurfspotDetail'
-import SurfspotList from './components/SurfspotsList'
+import SpotList from './components/SpotList'
 import storage from './utils/storage'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeSpots } from './reducers/surfspotsReducer'
 import { login, logout } from './reducers/userReducer'
 
 const App = () => {
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.currentUser)
   const dispatch = useDispatch()
+  const loc = useSelector((state) => state.SpotDetail)
+  console.log(loc)
 
   useEffect(() => {
     dispatch(initializeSpots())
@@ -31,6 +34,8 @@ const App = () => {
     storage.logoutUser()
   }
 
+  console.log(user)
+
   if (!user) {
     return (
       <div>
@@ -38,6 +43,7 @@ const App = () => {
 
         <Notification />
         <LoginForm />
+        <RegistrationForm />
       </div>
     )
   }
@@ -84,7 +90,7 @@ const App = () => {
           <SurfspotDetail />
         </Route>
         <Route path="/">
-          <SurfspotList />
+          <SpotList />
         </Route>
       </Switch>
     </Router>

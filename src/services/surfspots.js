@@ -8,7 +8,7 @@ const getAll = async () => {
 }
 
 const getSingleSpot = async (id) => {
-  const response = await axios.get(`${baseUrl}/surfsposts/${id}`)
+  const response = await axios.get(`${baseUrl}/surfspots/${id}`)
   return response.data
 }
 

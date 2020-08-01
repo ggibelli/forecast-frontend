@@ -3,12 +3,14 @@ import { useDispatch } from 'react-redux'
 import { login } from '../reducers/userReducer'
 import loginService from '../services/login'
 import { setNotification } from '../reducers/notificationReducer'
+import { useHistory } from 'react-router-dom'
 import storage from '../utils/storage'
 import customHooks from '../utils/customHooks'
 
 const LoginForm = () => {
   const username = customHooks.useField('text')
   const password = customHooks.useField('password')
+  const history = useHistory()
 
   const dispatch = useDispatch()
 
@@ -21,6 +23,7 @@ const LoginForm = () => {
       })
       dispatch(login(user))
       dispatch(setNotification(`${user.name} welcome back!`))
+      //history.push('/')
       storage.saveUser(user)
     } catch (exception) {
       dispatch(setNotification('wrong username/password', 'error'))
