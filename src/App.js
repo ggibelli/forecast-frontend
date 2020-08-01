@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import Container from '@material-ui/core/Container'
+import Grid from '@material-ui/core/Grid'
 
 import Notification from './components/Notification'
 import ContinentList from './components/ContinentList'
@@ -60,39 +62,34 @@ const App = () => {
 
   return (
     <Router>
-      <div style={navStyle}>
-        <Link style={padding} to="/">
-          All the spots
-        </Link>
-        <span>
-          {user.name} logged in <button onClick={handleLogout}>logout</button>
-        </span>
-      </div>
+      <Container maxWidth="sm">
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <div style={navStyle}>
+              <Link style={padding} to="/">
+                All the spots
+              </Link>
+              <span>
+                {user.name} logged in{' '}
+                <button onClick={handleLogout}>logout</button>
+              </span>
+            </div>
+          </Grid>
+        </Grid>
 
-      <h2>Surf Forecast App</h2>
+        <h2>Surf Forecast App</h2>
 
-      <Notification />
+        <Notification />
 
-      <Switch>
-        <Route path="/continents/:id">
-          <ContinentList />
-        </Route>
-        <Route path="/countries/:id">
-          <CountryList />
-        </Route>
-        <Route path="/regions/:id">
-          <RegionList />
-        </Route>
-        <Route path="/countries/:id">
-          <CountryList />
-        </Route>
-        <Route path="/surfspots/:id">
-          <SurfspotDetail />
-        </Route>
-        <Route path="/">
-          <SpotList />
-        </Route>
-      </Switch>
+        <Switch>
+          <Route path="/continents/:id" component={ContinentList} />
+          <Route path="/countries/:id" component={CountryList} />
+          <Route path="/regions/:id" component={RegionList} />
+          <Route path="/countries/:id" component={CountryList} />
+          <Route path="/surfspots/:id" component={SurfspotDetail} />
+          <Route path="/" component={SpotList} />
+        </Switch>
+      </Container>
     </Router>
   )
 }
