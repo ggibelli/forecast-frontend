@@ -14,4 +14,15 @@ const useField = (type) => {
   }
 }
 
-export default { useField }
+const useClick = (name) => {
+  const [open, setOpen] = useState(true)
+
+  const onClick = setOpen(!open)
+
+  return {
+    name,
+    onClick,
+  }
+}
+
+export default { useField, useClick }

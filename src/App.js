@@ -16,6 +16,9 @@ import storage from './utils/storage'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeSpots } from './reducers/surfspotsReducer'
 import { login, logout } from './reducers/userReducer'
+import Drawer from './components/Drawer'
+import NavBar from './components/NavBar'
+import Footer from './components/Footer'
 
 const App = () => {
   const user = useSelector((state) => state.currentUser)
@@ -38,17 +41,9 @@ const App = () => {
 
   console.log(user)
 
-  if (!user) {
-    return (
-      <div>
-        <h2>Login to application</h2>
 
-        <Notification />
-        <LoginForm />
-        <RegistrationForm />
-      </div>
-    )
-  }
+
+
 
   const padding = {
     padding: 5,
@@ -62,34 +57,16 @@ const App = () => {
 
   return (
     <Router>
-      <Container maxWidth="sm">
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <div style={navStyle}>
-              <Link style={padding} to="/">
-                All the spots
-              </Link>
-              <span>
-                {user.name} logged in{' '}
-                <button onClick={handleLogout}>logout</button>
-              </span>
-            </div>
-          </Grid>
-        </Grid>
+      
+      <Drawer />
+
+      <Footer />
+        
 
         <h2>Surf Forecast App</h2>
 
         <Notification />
-
-        <Switch>
-          <Route path="/continents/:id" component={ContinentList} />
-          <Route path="/countries/:id" component={CountryList} />
-          <Route path="/regions/:id" component={RegionList} />
-          <Route path="/countries/:id" component={CountryList} />
-          <Route path="/surfspots/:id" component={SurfspotDetail} />
-          <Route path="/" component={SpotList} />
-        </Switch>
-      </Container>
+        
     </Router>
   )
 }
