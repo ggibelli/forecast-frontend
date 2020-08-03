@@ -5,24 +5,17 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
-import Badge from '@material-ui/core/Badge'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
-
-
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import MailIcon from '@material-ui/icons/Mail'
-import NotificationsIcon from '@material-ui/icons/Notifications'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import { useSelector, useDispatch } from 'react-redux'
-import storage from '../utils/storage'
-import { login, logout } from '../reducers/userReducer'
-
-
+import storage from '../../utils/storage'
+import { logout } from '../../reducers/userReducer'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -168,7 +161,6 @@ export default function PrimarySearchAppBar(props) {
   )
 
   const iconLoggedin = (
-
     <IconButton
       edge="end"
       aria-label="account of current user"
@@ -181,16 +173,16 @@ export default function PrimarySearchAppBar(props) {
     </IconButton>
   )
 
-    const buttonLoggedout = (
-      <>
+  const buttonLoggedout = (
+    <>
       <Button component={Link} to="/login" color="default">
-  Login
-</Button>
-<Button component={Link} to="/signup" color="default">
-  Sign Up
-</Button>
-</>
-    )
+        Login
+      </Button>
+      <Button component={Link} to="/signup" color="default">
+        Sign Up
+      </Button>
+    </>
+  )
 
   return (
     <div className={classes.grow}>
@@ -223,13 +215,7 @@ export default function PrimarySearchAppBar(props) {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            
-            
-            {user 
-              ? iconLoggedin
-              : buttonLoggedout
-            }
-            
+            {user ? iconLoggedin : buttonLoggedout}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

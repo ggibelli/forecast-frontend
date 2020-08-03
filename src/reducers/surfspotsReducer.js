@@ -1,7 +1,6 @@
 import surfspotService from '../services/surfspots'
 
 const reducer = (state = [], action) => {
-  console.log(action)
   switch (action.type) {
     case 'INIT':
       return action.data

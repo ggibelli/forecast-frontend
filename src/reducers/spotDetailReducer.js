@@ -7,7 +7,6 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-  console.log(state)
   switch (action.type) {
     case 'FETCH_SPOT_START':
       return {

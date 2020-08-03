@@ -3,27 +3,10 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import MailIcon from '@material-ui/icons/Mail'
-import Typography from '@material-ui/core/Typography'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import NavBar from './NavBar'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Notification from './Notification'
-import ContinentList from './ContinentList'
-import CountryList from './CountryList'
-import LoginForm from './LoginForm'
-import RegistrationForm from './RegistrationForm'
-import RegionList from './RegionList'
-import SurfspotDetail from './SurfspotDetail'
-import SpotList from './SpotList'
-import Container from '@material-ui/core/Container'
 import DrawerLinkList from './DrawerLinkList'
-
 
 const drawerWidth = 240
 
@@ -84,8 +67,12 @@ function ResponsiveDrawer(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <NavBar handleDrawerToggle={handleDrawerToggle} NavClass={classes.appBar} />
-      
+      <Notification />
+      <NavBar
+        handleDrawerToggle={handleDrawerToggle}
+        NavClass={classes.appBar}
+      />
+
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
@@ -117,21 +104,7 @@ function ResponsiveDrawer(props) {
           </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>
-      <div className={classes.toolbar} />
-      <Container fixed>
-        <Switch>
-          <Route path="/continents/:id" component={ContinentList} />
-          <Route path="/countries/:id" component={CountryList} />
-          <Route path="/regions/:id" component={RegionList} />
-          <Route path="/countries/:id" component={CountryList} />
-          <Route path="/surfspots/:id" component={SurfspotDetail} />
-          <Route path="/login" component={LoginForm} />
-          <Route path="/signup" component={RegistrationForm} />
-          <Route path="/" component={SpotList} />
-        </Switch>
-        </Container>
-      </main>
+      
     </div>
   )
 }
