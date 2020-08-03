@@ -12,9 +12,9 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import storage from '../utils/storage'
-import { setNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notification'
 import registrationService from '../services/registration'
-import { login } from '../reducers/userReducer'
+import { login } from '../reducers/user'
 
 const useStyles = makeStyles((theme) => ({
   paper: {

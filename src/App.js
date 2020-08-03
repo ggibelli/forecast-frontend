@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import storage from './utils/storage'
-import { initializeSpots } from './reducers/surfspotsReducer'
-import { login } from './reducers/userReducer'
+import { initializeSpots } from './reducers/nestedSurfspots'
+import { initializeSearch } from './reducers/allSpotsSearch'
+import { login } from './reducers/user'
 
 import Routes from './components/Routes'
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeSpots())
+    dispatch(initializeSearch())
     const loadUser = storage.loadUser()
     if (loadUser) {
       dispatch(login(loadUser))

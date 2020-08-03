@@ -7,9 +7,14 @@ const getAll = async () => {
   return response.data
 }
 
+const getAllForSearch = async () => {
+  const response = await axios.get(`${baseUrl}/surfspots`)
+  return response.data
+}
+
 const getSingleSpot = async (id) => {
   const response = await axios.get(`${baseUrl}/surfspots/${id}`)
   return response.data
 }
 
-export default { getAll, getSingleSpot }
+export default { getAll, getSingleSpot, getAllForSearch }

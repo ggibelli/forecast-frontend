@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { BoxLoading } from 'react-loadingg'
 import { useHistory, useParams } from 'react-router-dom'
-import { fetchSpot } from '../reducers/spotDetailReducer'
+import { fetchSpot } from '../reducers/spotDetail'
 
 const SpotDetail = () => {
   const { id } = useParams()
