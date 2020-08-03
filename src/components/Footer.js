@@ -9,8 +9,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        www.surf-app.com
       </Link>{' '}
       {new Date().getFullYear()}.
     </Typography>
@@ -18,10 +18,13 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
-
   footer: {
     padding: theme.spacing(3, 2),
     marginTop: 'auto',
+    marginLeft: 240,
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 'auto',
+    },
     backgroundColor:
       theme.palette.type === 'light'
         ? theme.palette.grey[200]
@@ -33,16 +36,14 @@ export default function StickyFooter(props) {
   const classes = useStyles()
 
   return (
-    <div className={props.mainClass}>
+    <div>
       <CssBaseline />
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          <Typography variant="body1">
-            My sticky footer can be found here.
-          </Typography>
+          <Typography variant="body1">SURF FORECAST APP.</Typography>
           <Copyright />
         </Container>
       </footer>
-      </div>
+    </div>
   )
 }

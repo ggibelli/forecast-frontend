@@ -4,9 +4,10 @@ import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import Container from '@material-ui/core/Container'
 import NavBar from './NavBar'
-import Notification from './Notification'
 import DrawerLinkList from './DrawerLinkList'
+import Notification from './Notification'
 
 const drawerWidth = 240
 
@@ -43,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ResponsiveDrawer(props) {
-  const { window } = props
+function ResponsiveDrawer({ window, children }) {
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -67,7 +67,6 @@ function ResponsiveDrawer(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Notification />
       <NavBar
         handleDrawerToggle={handleDrawerToggle}
         NavClass={classes.appBar}
@@ -104,7 +103,11 @@ function ResponsiveDrawer(props) {
           </Drawer>
         </Hidden>
       </nav>
-      
+      <Container component="main" className={classes.content}>
+        <div className={classes.toolbar} />
+        <Notification />
+        {children}
+      </Container>
     </div>
   )
 }

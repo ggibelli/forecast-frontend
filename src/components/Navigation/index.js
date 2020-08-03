@@ -1,6 +1,6 @@
 import React from 'react'
 import Drawer from './Drawer'
 
-const Navigation = () => <Drawer />
+const Navigation = ({ children }) => <Drawer> {children} </Drawer>
 
 export default Navigation
