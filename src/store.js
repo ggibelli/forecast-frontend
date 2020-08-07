@@ -7,6 +7,7 @@ import notificationReducer from './reducers/notification'
 import userReducer from './reducers/user'
 import spotDetailReducer from './reducers/spotDetail'
 import spotSearchReducer from './reducers/allSpotsSearch'
+import forecastReducer from './reducers/forecastSpot'
 
 const reducer = combineReducers({
   surfspots: surfspotsReducer,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   currentUser: userReducer,
   spotDetail: spotDetailReducer,
   spotsSearch: spotSearchReducer,
+  forecastSpot: forecastReducer,
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))

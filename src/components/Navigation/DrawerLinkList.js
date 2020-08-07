@@ -26,11 +26,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NestedList() {
   const spotList = useSelector((state) => state.surfspots)
-
   const keysToUpdate = {
     countries: 'children',
     regions: 'children',
-    surf_spots: 'children',
+    surfSpots: 'children',
   }
 
   const nestedSpotList = updateDisplayNameToLabel(spotList, keysToUpdate)

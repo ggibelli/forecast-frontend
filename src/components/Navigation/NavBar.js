@@ -5,6 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import Divider from '@material-ui/core/Divider';
+
 import { Link } from 'react-router-dom'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
@@ -47,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
   },
-
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -109,6 +110,7 @@ export default function PrimarySearchAppBar(props) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <Divider />
       <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   )
@@ -179,10 +181,7 @@ export default function PrimarySearchAppBar(props) {
             Surf Forecast
           </Typography>
           <div className={classes.search}>
-
-            <ComboBox
-              
-            />
+            <ComboBox />
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
