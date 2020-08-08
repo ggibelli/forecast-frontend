@@ -111,7 +111,7 @@ export default function SignIn() {
             <Grid item xs></Grid>
             <Grid item>
               <Link href="/signup" onClick={preventDefault} variant="body2">
-                Don't have an account? Sign Up
+                Don&apos;t have an account? Sign Up
               </Link>
             </Grid>
           </Grid>

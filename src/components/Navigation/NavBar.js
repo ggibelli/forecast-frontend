@@ -5,8 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider';
-
+import Divider from '@material-ui/core/Divider'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function PrimarySearchAppBar(props) {
+export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
   const user = useSelector((state) => state.currentUser)
   const dispatch = useDispatch()
 
@@ -166,11 +166,11 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="fixed" className={props.NavClass}>
+      <AppBar position="fixed" className={NavClass}>
         <Toolbar>
           <IconButton
             edge="start"
-            onClick={props.handleDrawerToggle}
+            onClick={handleDrawerToggle}
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
@@ -204,4 +204,9 @@ export default function PrimarySearchAppBar(props) {
       {renderMenu}
     </div>
   )
+}
+
+PrimarySearchAppBar.propTypes = {
+  NavClass: PropTypes.string.isRequired,
+  handleDrawerToggle: PropTypes.func.isRequired,
 }

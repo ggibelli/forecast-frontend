@@ -5,6 +5,7 @@ import Drawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import PropTypes from 'prop-types'
 import NavBar from './NavBar'
 import DrawerLinkList from './DrawerLinkList'
 import Notification from './Notification'
@@ -111,4 +112,10 @@ function ResponsiveDrawer({ window, children }) {
     </div>
   )
 }
+
+ResponsiveDrawer.propTypes = {
+  window: PropTypes.instanceOf(window.constructor),
+  children: PropTypes.element.isRequired,
+}
+
 export default ResponsiveDrawer

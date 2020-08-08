@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function StickyFooter(props) {
+export default function StickyFooter() {
   const classes = useStyles()
 
   return (

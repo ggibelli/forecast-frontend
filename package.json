@@ -11,15 +11,19 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "history": "^5.0.0",
+    "leaflet": "^1.6.0",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-leaflet": "^2.7.0",
     "react-loadingg": "^1.7.2",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "swr": "^0.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

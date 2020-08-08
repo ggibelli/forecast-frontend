@@ -7,6 +7,7 @@ const updateDisplayNameToLabel = (val, keysMap) => {
     return Object.keys(val).reduce((obj, key) => {
       const propKey = updateDisplayNameToLabel(key, keysMap)
       const propVal = updateDisplayNameToLabel(val[key], keysMap)
+      // eslint-disable-next-line no-param-reassign
       obj[propKey] = propVal
       return obj
     }, {})
