@@ -14,7 +14,7 @@ const Routes = () => (
     <Route path="/surfspots/:id" component={SurfSpotDetail} />
     <Route path="/login" component={LoginForm} />
     <Route path="/signup" component={RegistrationForm} />
-    <Route path="/" component={Homepage} />
+    <Route path={['/:area/:id', '/']} component={Homepage} />
   </Switch>
 )
 

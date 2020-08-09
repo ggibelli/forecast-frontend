@@ -1,43 +1,29 @@
 import mapsService from '../services/maps'
 
-
-
-
 const reducer = (state = null, action) => {
   switch (action.type) {
-    case 'CONTINENT':
+    case 'GET_MAP':
       return action.data
-    case 'COUNTRY':
-      return action.data
-    case 'REGION':
-      return action.data
+    case 'ERROR_MAP':
+      return action.error
     default:
       return state
   }
 }
 
-export const getContinentData = () => async (dispatch) => {
-  const data = await mapsService.getContinent()
-  dispatch({
-    type: 'CONTINENT',
-    data,
-  })
-}
-
-export const GetCountryData = () => async (dispatch) => {
-  const data = await mapsService.getCountry()
-  dispatch({
-    type: 'COUNTRY',
-    data,
-  })
-}
-
-export const GetRegionData = () => async (dispatch) => {
-  const data = await mapsService.getRegion()
-  dispatch({
-    type: 'REGION',
-    data,
-  })
+export const getMapData = (id, area) => async (dispatch) => {
+  try {
+    const data = await mapsService.getMapsInfo(id, area)
+    dispatch({
+      type: 'GET_MAP',
+      data,
+    })
+  } catch (error) {
+    dispatch({
+      type: 'ERROR_MAP',
+      error,
+    })
+  }
 }
 
 export default reducer

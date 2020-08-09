@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import NavBar from './NavBar'
 import DrawerLinkList from './DrawerLinkList'
 import Notification from './Notification'
+import Breadcrumbs from './Breadcrumbs'
 
 const drawerWidth = 240
 
@@ -107,6 +108,7 @@ function ResponsiveDrawer({ window, children }) {
       <Container component="main" className={classes.content}>
         <div className={classes.toolbar} />
         <Notification />
+          <Breadcrumbs />
         {children}
       </Container>
     </div>
