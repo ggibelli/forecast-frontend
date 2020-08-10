@@ -21,7 +21,7 @@ export default function Homepage() {
   const errorLoading = () => <div>Error loading</div>
   if (mapToShow && mapToShow.name === 'Error') return errorLoading()
 
-  if (mapToShow && area === 'continents') {
+  if (mapToShow && mapToShow.countries && area === 'continents') {
     rawCoordinates.push(
       mapToShow.countries
         .map((country) => country.regions)
@@ -31,7 +31,7 @@ export default function Homepage() {
     )
   }
 
-  if (mapToShow && area === 'countries') {
+  if (mapToShow && mapToShow.regions && area === 'countries') {
     rawCoordinates.push(
       mapToShow.regions
         .map((region) => region.surfSpots)
@@ -39,7 +39,7 @@ export default function Homepage() {
     )
   }
 
-  if (mapToShow && area === 'regions') {
+  if (mapToShow && mapToShow.surfSpots && area === 'regions') {
     rawCoordinates.push(
       mapToShow.surfSpots.filter((spot) => spot.latitude !== 'unknown'),
     )
