@@ -5,7 +5,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import '../index.css'
 import { useParams, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { getMapData } from '../reducers/maps'
+import { fetchMap } from '../reducers/maps'
 
 // in verita homepage ti chiede: scegli il continente -> da li prendo le coordinate del MAP center e anche che endpoint usare per i popup
 
@@ -14,12 +14,16 @@ export default function Homepage() {
   const dispatch = useDispatch()
   const [activePopup, setActivePopup] = useState(null)
   useEffect(() => {
-    dispatch(getMapData(id, area))
+    dispatch(fetchMap(id, area))
   }, [id, area, dispatch])
-  const mapToShow = useSelector((state) => state.mapToShow)
+  const mapData = useSelector((state) => state.mapToShow)
+  let mapToShow
+  if (!mapData.isLoading && Object.entries(mapData.data).length !== 0) {
+    mapToShow = mapData.data
+  }
   const rawCoordinates = []
-  const errorLoading = () => <div>Error loading</div>
-  if (mapToShow && mapToShow.name === 'Error') return errorLoading()
+  const errorLoading = (message) => <div>{message}</div>
+  if (mapData.errorMessage) return errorLoading(mapData.errorMessage)
 
   if (mapToShow && mapToShow.countries && area === 'continents') {
     rawCoordinates.push(
@@ -57,7 +61,8 @@ export default function Homepage() {
     .flat(2)
     .filter((spot) => spot.latitude !== 'unknown')
 
-  if (!mapToShow) return <Skeleton variant="rect" width="100%" height="70vh" />
+  if (mapData.isLoading || Object.entries(mapData.data).length === 0)
+    return <Skeleton variant="rect" width="100%" height="70vh" />
   return (
     <Map center={[mapToShow.latitude, mapToShow.longitude]} zoom={zoom}>
       <TileLayer

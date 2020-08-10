@@ -108,7 +108,7 @@ function ResponsiveDrawer({ window, children }) {
       <Container component="main" className={classes.content}>
         <div className={classes.toolbar} />
         <Notification />
-          <Breadcrumbs />
+        <Breadcrumbs />
         {children}
       </Container>
     </div>

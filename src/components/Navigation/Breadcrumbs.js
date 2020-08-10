@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 
 export default function SimpleBreadcrumbs() {
   const locationBreadcrumbs = useSelector((state) => state.spotDetail)
-  const mapLocationBreadcrumbs = useSelector((state) => state.mapToShow)
+  const mapLocationBreadcrumbs = useSelector(({ mapToShow }) => mapToShow.data)
   useEffect(() => {
     setBreadcrumbActive(false)
   }, [mapLocationBreadcrumbs])
