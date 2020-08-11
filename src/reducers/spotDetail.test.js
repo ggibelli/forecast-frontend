@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { fetchSpot } from './spotDetail'
+import reducer, { fetchSpot } from './spotDetail'
 
 import surfspotService from '../services/surfspots'
 
@@ -15,6 +15,40 @@ const initialState = {
 }
 
 describe('Spot detail reducer', () => {
+  it('should return the initial state', () => {
+    expect(reducer(undefined, {})).toEqual({
+      data: {},
+      isLoading: false,
+      errorMessage: '',
+    })
+  })
+
+  it('should return the loading state when the request is made', () => {
+    expect(reducer({}, { type: 'FETCH_SPOT_START' })).toEqual({
+      isLoading: true,
+      errorMessage: '',
+    })
+  })
+
+  it('should return loading state false when the request is over and success', () => {
+    expect(
+      reducer({}, { type: 'FETCH_SPOT_SUCCESS', data: 'success' }),
+    ).toEqual({
+      data: 'success',
+      isLoading: false,
+      errorMessage: '',
+    })
+  })
+
+  it('should return loading state false and error message when the request is over and fail', () => {
+    expect(reducer({}, { type: 'FETCH_SPOT_FAIL' })).toEqual({
+      isLoading: false,
+      errorMessage: 'Cannot find the spot',
+    })
+  })
+})
+
+describe('Spot detail reducer thunk', () => {
   it('creates both fetch start and fetch success action if the spot exists', async () => {
     // Arrange
     const id = 12345

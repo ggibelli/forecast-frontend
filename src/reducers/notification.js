@@ -33,6 +33,4 @@ export const setNotification = (message, type = 'success') => async (
   }, 5000)
 }
 
-export const clearNotification = () => ({ type: 'CLEAR_NOTIFICATION' })
-
 export default reducer

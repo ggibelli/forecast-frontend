@@ -16,18 +16,16 @@ export default function Homepage() {
   useEffect(() => {
     dispatch(fetchMap(id, area))
   }, [id, area, dispatch])
-  const mapData = useSelector((state) => state.mapToShow)
-  let mapToShow
-  if (!mapData.isLoading && Object.entries(mapData.data).length !== 0) {
-    mapToShow = mapData.data
-  }
+  const { data, isLoading, errorMessage } = useSelector(
+    (state) => state.mapToShow,
+  )
   const rawCoordinates = []
   const errorLoading = (message) => <div>{message}</div>
-  if (mapData.errorMessage) return errorLoading(mapData.errorMessage)
+  if (errorMessage) return errorLoading(errorMessage)
 
-  if (mapToShow && mapToShow.countries && area === 'continents') {
+  if (data && data.countries && area === 'continents') {
     rawCoordinates.push(
-      mapToShow.countries
+      data.countries
         .map((country) => country.regions)
         .flat()
         .map((region) => region.surfSpots)
@@ -35,17 +33,17 @@ export default function Homepage() {
     )
   }
 
-  if (mapToShow && mapToShow.regions && area === 'countries') {
+  if (data && data.regions && area === 'countries') {
     rawCoordinates.push(
-      mapToShow.regions
+      data.regions
         .map((region) => region.surfSpots)
         .map((spots) => spots.flat()),
     )
   }
 
-  if (mapToShow && mapToShow.surfSpots && area === 'regions') {
+  if (data && data.surfSpots && area === 'regions') {
     rawCoordinates.push(
-      mapToShow.surfSpots.filter((spot) => spot.latitude !== 'unknown'),
+      data.surfSpots.filter((spot) => spot.latitude !== 'unknown'),
     )
   }
 
@@ -61,10 +59,10 @@ export default function Homepage() {
     .flat(2)
     .filter((spot) => spot.latitude !== 'unknown')
 
-  if (mapData.isLoading || Object.entries(mapData.data).length === 0)
+  if (isLoading || Object.entries(data).length === 0)
     return <Skeleton variant="rect" width="100%" height="70vh" />
   return (
-    <Map center={[mapToShow.latitude, mapToShow.longitude]} zoom={zoom}>
+    <Map center={[data.latitude, data.longitude]} zoom={zoom}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
