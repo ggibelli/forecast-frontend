@@ -44,7 +44,7 @@ export default function NestedList() {
     return items.map((nav) => {
       if (!nav.children) {
         return (
-          <div key={nav.id}>
+          <div key={nav}>
             <ListItem
               button
               className={classes.nested}

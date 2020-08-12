@@ -5,11 +5,14 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import '../index.css'
 import { useParams, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { usePosition } from 'use-position'
 import { fetchMap } from '../reducers/maps'
 
 // in verita homepage ti chiede: scegli il continente -> da li prendo le coordinate del MAP center e anche che endpoint usare per i popup
 
 export default function Homepage() {
+  const { latitude, longitude, timestamp, accuracy, error } = usePosition()
+  console.log(latitude, longitude)
   const { id, area } = useParams()
   const dispatch = useDispatch()
   const [activePopup, setActivePopup] = useState(null)
@@ -19,6 +22,8 @@ export default function Homepage() {
   const { data, isLoading, errorMessage } = useSelector(
     (state) => state.mapToShow,
   )
+  const ip  = useSelector(state => state.surfspots[1])
+  console.log(ip)
   const rawCoordinates = []
   const errorLoading = (message) => <div>{message}</div>
   if (errorMessage) return errorLoading(errorMessage)

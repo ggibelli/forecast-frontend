@@ -7,8 +7,6 @@ import LoginForm from '../LoginForm'
 import RegistrationForm from '../RegistrationForm'
 import Homepage from '../Homepage'
 
-// cambio modo di caricare componente al route cosi che prenda :name o qualcosa del genere props e cambio anche path
-
 const Routes = () => (
   <Switch>
     <Route path="/surfspots/:id" component={SurfSpotDetail} />

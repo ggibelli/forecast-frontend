@@ -4,25 +4,24 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import renderer from 'react-test-renderer'
 
-import Breadcrumbs from './Breadcrumbs'
+import Notification from './Notification'
 
 const mockStore = configureMockStore([thunk])
 let store
 let component
 
-describe('Breadcrumbs', () => {
+describe('Notification', () => {
   beforeEach(() => {
     store = mockStore({
-      mapToShow: { data: {}, isLoading: false, errorMessage: '' },
-      spotDetail: { data: {}, isLoading: false, errorMessage: '' },
+      notification: { message: 'ciao', type: 'success' },
     })
     component = renderer.create(
       <Provider store={store}>
-        <Breadcrumbs />
+        <Notification />
       </Provider>,
     )
   })
-  test('renders Breadcrumbs component', () => {
+  test('renders Notification component', () => {
     expect(component.toJSON()).toMatchSnapshot()
   })
 })
