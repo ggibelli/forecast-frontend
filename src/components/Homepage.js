@@ -7,25 +7,44 @@ import { useParams, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { usePosition } from 'use-position'
 import { fetchMap } from '../reducers/maps'
-
-// in verita homepage ti chiede: scegli il continente -> da li prendo le coordinate del MAP center e anche che endpoint usare per i popup
+import { setNotification } from '../reducers/notification'
+import distanceHelper from '../utils/findNearestSpot'
 
 export default function Homepage() {
-  const { latitude, longitude, timestamp, accuracy, error } = usePosition()
-  console.log(latitude, longitude)
-  const { id, area } = useParams()
   const dispatch = useDispatch()
-  const [activePopup, setActivePopup] = useState(null)
-  useEffect(() => {
-    dispatch(fetchMap(id, area))
-  }, [id, area, dispatch])
+  const surfSpots = useSelector((state) => state.surfspots)
   const { data, isLoading, errorMessage } = useSelector(
     (state) => state.mapToShow,
   )
-  const ip  = useSelector(state => state.surfspots[1])
-  console.log(ip)
+  const flatSpots =
+    surfSpots &&
+    surfSpots
+      .map((continent) => continent.countries)
+      .flat()
+      .map((country) => country.regions)
+      .flat()
+  let { id, area } = useParams()
+  const { latitude, longitude, error } = usePosition()
+  if (!id || !area) {
+    const distanceRegions = flatSpots.map((spot) =>
+      distanceHelper.distance(spot, latitude, longitude),
+    )
+    const closestRegion = distanceHelper.findClosestRegion(distanceRegions)
+    id = closestRegion && closestRegion[1]
+    area = 'regions'
+  }
+
+  const [activePopup, setActivePopup] = useState(null)
+  useEffect(() => {
+    if (id && area) dispatch(fetchMap(id, area))
+  }, [id, area, dispatch])
+
   const rawCoordinates = []
   const errorLoading = (message) => <div>{message}</div>
+  if (error) {
+    dispatch(setNotification(error, 'error'))
+    return <div>Error GPS</div>
+  }
   if (errorMessage) return errorLoading(errorMessage)
 
   if (data && data.countries && area === 'continents') {
