@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 import { useSelector } from 'react-redux'
 
@@ -94,5 +95,5 @@ export default function SimpleBreadcrumbs() {
       </Breadcrumbs>
     )
   }
-  return null
+  return <Skeleton variant="text" />
 }

@@ -57,7 +57,7 @@ export default function SignIn() {
       })
       dispatch(login(user))
       dispatch(setNotification(`${user.name} welcome back!`))
-      // history.push('/')
+      history.push('/')
       storage.saveUser(user)
     } catch (exception) {
       dispatch(setNotification('wrong username/password', 'error'))
