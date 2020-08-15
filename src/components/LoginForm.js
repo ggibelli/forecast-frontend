@@ -56,7 +56,7 @@ export default function SignIn() {
         password: event.target.password.value,
       })
       dispatch(login(user))
-      dispatch(setNotification(`${user.name} welcome back!`))
+      dispatch(setNotification(`${user.firstName} welcome back!`))
       history.push('/')
       storage.saveUser(user)
     } catch (exception) {
