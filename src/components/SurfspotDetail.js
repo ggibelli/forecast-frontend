@@ -1,4 +1,5 @@
 import React, { useEffect, Suspense } from 'react'
+import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
@@ -13,6 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import SingleForecast from './SingleForecast'
 import { fetchSpot } from '../reducers/spotDetail'
 import { fetchForecast } from '../reducers/forecastSpot'
+import spinner from '../static/spinner.gif'
 
 const SpotDetail = () => {
   const { id } = useParams()
@@ -20,13 +22,14 @@ const SpotDetail = () => {
   const surfSpot = useSelector((state) => state.spotDetail)
   const forecast = useSelector((state) => state.forecastSpot)
   const { data } = forecast
-  const forecastId = surfSpot.data.forecast && surfSpot.data.forecast.id
+  const forecastId = surfSpot.data.forecast ? surfSpot.data.forecast.id : null
   useEffect(() => {
     if (id) dispatch(fetchSpot(id))
   }, [id, dispatch])
   useEffect(() => {
     if (forecastId) dispatch(fetchForecast(forecastId))
   }, [forecastId, dispatch])
+  const tileImage = forecastId ? surfSpot.data.tile_url : spinner
 
   const MyImageComponent = React.forwardRef(function MyComponent(props, ref) {
     const { src } = useImage({
@@ -38,6 +41,11 @@ const SpotDetail = () => {
       </div>
     )
   })
+
+  MyImageComponent.propTypes = {
+    src: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+  }
 
   const gridStyle = {
     width: 672,
@@ -63,21 +71,23 @@ const SpotDetail = () => {
               <Skeleton variant="rect" width="100%" height="70vh" />
             ) : (
               <div style={scrollingWrapper}>
-                {Object.entries(data).length !== 0 &&
-                  data.forecast.map((time) => (
-                    <div key={time.time} style={card}>
-                      <Card>
-                        <CardHeader
-                          title={moment(time.time).format(
-                            'MMM Do YY, h:mm:ss a',
-                          )}
-                        />
-                        <CardContent>
-                          <SingleForecast data={time.data} />
-                        </CardContent>
-                      </Card>
-                    </div>
-                  ))}
+                {Object.entries(data).length !== 0
+                  ? data.forecast.map((time) => (
+                      <div key={time.time} style={card}>
+                        <Card>
+                          <CardHeader
+                            style={{ whiteSpace: 'pre', paddingBottom: 0 }}
+                            title={moment(time.time).format(
+                              'MMM Do YY[\n]h:mm:ss a',
+                            )}
+                          />
+                          <CardContent>
+                            <SingleForecast data={time.data} />
+                          </CardContent>
+                        </Card>
+                      </div>
+                    ))
+                  : null}
               </div>
             )}
           </Grid>
@@ -85,11 +95,8 @@ const SpotDetail = () => {
             <Suspense
               fallback={<Skeleton variant="rect" width="100%" height="100%" />}
             >
-              <Tooltip title="can">
-                <MyImageComponent
-                  src={surfSpot.data.tile_url}
-                  text="Surf spot map tile"
-                />
+              <Tooltip title="Coastal view">
+                <MyImageComponent src={tileImage} text="Surf spot map tile" />
               </Tooltip>
             </Suspense>
             <div>

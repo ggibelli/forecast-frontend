@@ -16,13 +16,13 @@ export default function Homepage() {
   const { data, isLoading, errorMessage } = useSelector(
     (state) => state.mapToShow,
   )
-  const flatSpots =
-    surfSpots &&
-    surfSpots
-      .map((continent) => continent.countries)
-      .flat()
-      .map((country) => country.regions)
-      .flat()
+  const flatSpots = surfSpots
+    ? surfSpots
+        .map((continent) => continent.countries)
+        .flat()
+        .map((country) => country.regions)
+        .flat()
+    : null
   let { id, area } = useParams()
   const { latitude, longitude, error } = usePosition()
   if (!id || !area) {
@@ -30,7 +30,7 @@ export default function Homepage() {
       distanceHelper.distance(spot, latitude, longitude),
     )
     const closestRegion = distanceHelper.findClosestRegion(distanceRegions)
-    id = closestRegion && closestRegion[1]
+    id = closestRegion ? closestRegion[1] : null
     area = 'regions'
   }
 
@@ -101,7 +101,7 @@ export default function Homepage() {
           }}
         />
       ))}
-      {activePopup && (
+      {activePopup ? (
         <Popup
           position={[activePopup.latitude, activePopup.longitude]}
           onClose={() => {
@@ -118,7 +118,7 @@ export default function Homepage() {
             </Button>
           </div>
         </Popup>
-      )}
+      ) : null}
     </Map>
   )
 }

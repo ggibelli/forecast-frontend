@@ -53,6 +53,7 @@ const fetchMapFail = (error) => async (dispatch) => {
 }
 
 export const fetchMap = (id, area) => async (dispatch) => {
+  console.log(id, area)
   dispatch(fetchMapStart())
   try {
     const data = await mapsService.getMapsInfo(id, area)
