@@ -25,7 +25,7 @@ export default function Homepage() {
     : null
   let { id, area } = useParams()
   const { latitude, longitude, error } = usePosition()
-  if (!id || !area) {
+  if ((!id || !area) && latitude) {
     const distanceRegions = flatSpots.map((spot) =>
       distanceHelper.distance(spot, latitude, longitude),
     )
@@ -83,7 +83,7 @@ export default function Homepage() {
     .flat(2)
     .filter((spot) => spot.latitude !== 'unknown')
 
-  if (isLoading || Object.entries(data).length === 0)
+  if ((isLoading || Object.entries(data).length === 0) && !data.latitude)
     return <Skeleton variant="rect" width="100%" height="70vh" />
   return (
     <Map center={[data.latitude, data.longitude]} zoom={zoom}>

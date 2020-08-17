@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
-import Popover from '@material-ui/core/Popover'
+import Popper from '@material-ui/core/Popper'
 import { makeStyles } from '@material-ui/core/styles'
 import convertDegrees from '../utils/degreesToDirection'
 import forecastInfoText from '../utils/forecastInfoText'
@@ -11,7 +11,9 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'none',
   },
   paper: {
+    border: '1px solid',
     padding: theme.spacing(1),
+    backgroundColor: theme.palette.background.paper,
   },
 }))
 
@@ -56,29 +58,16 @@ const SingleForecast = ({ data }) => {
         <br />
         Wave direction: {convertDegrees(info.waveDirection)}
       </Typography>
-      <Popover
+      <Popper
         id="mouse-over-popover-wave"
-        className={classes.popover}
-        classes={{
-          paper: classes.paper,
-        }}
+        placement="bottom-start"
         open={anchorEl.openedPopoverId === forecastInfoText[0].id}
         anchorEl={anchorEl.anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        onClose={handlePopoverClose}
-        disableRestoreFocus
       >
-        <Typography style={{ whiteSpace: 'pre-wrap' }}>
+        <div className={classes.paper} style={{ whiteSpace: 'pre-wrap' }}>
           {forecastInfoText[0].wave}
-        </Typography>
-      </Popover>
+        </div>
+      </Popper>
       <Typography
         aria-owns={open ? 'mouse-over-popover-swell' : undefined}
         aria-haspopup="true"
@@ -108,29 +97,16 @@ const SingleForecast = ({ data }) => {
         Secondary swell direction:{' '}
         {convertDegrees(info.secondarySwellDirection)}
       </Typography>
-      <Popover
+      <Popper
         id="mouse-over-popover-swell"
-        className={classes.popover}
-        classes={{
-          paper: classes.paper,
-        }}
+        placement="bottom-start"
         open={anchorEl.openedPopoverId === forecastInfoText[1].id}
         anchorEl={anchorEl.anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        onClose={handlePopoverClose}
-        disableRestoreFocus
       >
-        <Typography style={{ whiteSpace: 'pre-wrap' }}>
+        <div className={classes.paper} style={{ whiteSpace: 'pre-wrap' }}>
           {forecastInfoText[1].swell}
-        </Typography>
-      </Popover>
+        </div>
+      </Popper>
       <Typography
         aria-owns={open ? 'mouse-over-popover-wind' : undefined}
         aria-haspopup="true"
@@ -154,29 +130,16 @@ const SingleForecast = ({ data }) => {
         <br />
         Cloud cover: {info.cloudCover.toFixed(2)}%
       </Typography>
-      <Popover
+      <Popper
         id="mouse-over-popover-wind"
-        className={classes.popover}
-        classes={{
-          paper: classes.paper,
-        }}
+        placement="bottom-start"
         open={anchorEl.openedPopoverId === forecastInfoText[2].id}
         anchorEl={anchorEl.anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        onClose={handlePopoverClose}
-        disableRestoreFocus
       >
-        <Typography style={{ whiteSpace: 'pre-wrap' }}>
+        <div className={classes.paper} style={{ whiteSpace: 'pre-wrap' }}>
           {forecastInfoText[2].wind}
-        </Typography>
-      </Popover>
+        </div>
+      </Popper>
     </>
   )
 }

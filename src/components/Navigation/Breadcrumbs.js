@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 import Skeleton from '@material-ui/lab/Skeleton'
 
 import { useSelector } from 'react-redux'
@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux'
 export default function SimpleBreadcrumbs() {
   const locationBreadcrumbs = useSelector((state) => state.spotDetail)
   const mapLocationBreadcrumbs = useSelector(({ mapToShow }) => mapToShow.data)
+  const { pathname } = useLocation()
+  const urlLocation = pathname.split('/')[1]
   useEffect(() => {
     setBreadcrumbActive(false)
   }, [mapLocationBreadcrumbs])
@@ -18,6 +20,19 @@ export default function SimpleBreadcrumbs() {
   }, [locationBreadcrumbs])
   const [breadcrumbActive, setBreadcrumbActive] = useState(false)
   const { continent, country, region, name } = locationBreadcrumbs.data
+
+  if (urlLocation === 'signup' || urlLocation === 'login') {
+    return (
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link color="inherit" component={RouterLink} to="/">
+          Home
+        </Link>
+        <Typography color="textPrimary">
+          {urlLocation.charAt(0).toUpperCase() + urlLocation.slice(1)}
+        </Typography>
+      </Breadcrumbs>
+    )
+  }
 
   if (continent && breadcrumbActive) {
     return (

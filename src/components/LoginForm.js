@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles()
-
   const history = useHistory()
 
   const preventDefault = (event) => {
