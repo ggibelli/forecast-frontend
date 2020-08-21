@@ -6,10 +6,12 @@ import Hidden from '@material-ui/core/Hidden'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import NavBar from './NavBar'
 import DrawerLinkList from './DrawerLinkList'
 import Notification from './Notification'
 import Breadcrumbs from './Breadcrumbs'
+import surfLogo from '../../static/logo.png'
 
 const drawerWidth = 240
 
@@ -57,7 +59,15 @@ function ResponsiveDrawer({ window, children }) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar} style={{ textAlign: 'center' }}>
+        <Link to="/">
+          <img
+            src={surfLogo}
+            style={{ objectFit: 'fill', height: 59 }}
+            alt="Wave logo"
+          />
+        </Link>
+      </div>
       <Divider />
       <DrawerLinkList />
     </div>

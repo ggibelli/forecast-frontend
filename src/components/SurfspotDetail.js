@@ -9,7 +9,8 @@ import { fetchSpot } from '../reducers/spotDetail'
 import { fetchForecast } from '../reducers/forecastSpot'
 import spinner from '../static/spinner.gif'
 import ImageComponent from './ImageComponent'
-import ChartComponent from './ChartComponent'
+import ChartWave from './ChartWave'
+import ChartTide from './ChartTide'
 
 const SpotDetail = () => {
   const { id } = useParams()
@@ -34,7 +35,10 @@ const SpotDetail = () => {
             {forecastState.isLoading ? (
               <Skeleton variant="rect" width="100%" height="70vh" />
             ) : (
-              <ChartComponent />
+              <>
+              <ChartWave />
+              <ChartTide />
+              </>
             )}
           </Grid>
           <Grid item xs={12} sm={4}>

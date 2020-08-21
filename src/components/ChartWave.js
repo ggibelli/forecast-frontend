@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { Polar, Bar, Line } from 'react-chartjs-2'
+import { Bar, Line } from 'react-chartjs-2'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 
-const ChartComponent = () => {
+const ChartWave = () => {
   const forecastState = useSelector((state) => state.forecastSpot)
-  const [dayForecast, setDayForecast] = useState({ day: null, forecast: null })
   const [showChart, setShowChart] = useState('waveHeight')
 
   const { data } = forecastState
@@ -65,12 +64,12 @@ const ChartComponent = () => {
     : null
 
   const handleClickNextDay = () => {
-    if (day.index + 6 >= forecastObject.length) return false
+    if (day.index + 6 >= forecastObject.length) setDay({ ...day })
     setDay({ data: forecastObject.slice(day.index + 6), index: day.index + 6 })
   }
 
   const handleClickPrevDay = () => {
-    if (day.index - 6 < 0) return false
+    if (day.index - 6 < 0) setDay({ ...day })
     setDay({ data: forecastObject.slice(day.index - 6), index: day.index - 6 })
   }
 
@@ -181,16 +180,29 @@ const ChartComponent = () => {
 
   return (
     <>
-      
       <button onClick={handleClickPrevDay}> ieri </button>
       <button onClick={handleClickNextDay}> domani </button>
 
       <button onClick={handleClickPeriodChart}> periodo </button>
       <button onClick={handleClickHeightChart}> altezza </button>
-      {showChart === 'waveHeight' ? <Bar data={dataHeight} /> : null}
-      {showChart === 'wavePeriod' ? <Line data={dataPeriod} /> : null}
+      {showChart === 'waveHeight' ? (
+        <Bar
+          width={100}
+          height={50}
+          options={{ maintainAspectRatio: true }}
+          data={dataHeight}
+        />
+      ) : null}
+      {showChart === 'wavePeriod' ? (
+        <Line
+          width={100}
+          height={50}
+          options={{ maintainAspectRatio: true }}
+          data={dataPeriod}
+        />
+      ) : null}
     </>
   )
 }
 
-export default ChartComponent
+export default ChartWave
