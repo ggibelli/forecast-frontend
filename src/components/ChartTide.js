@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Line } from 'react-chartjs-2'
 import { useSelector } from 'react-redux'
-import moment from 'moment'
 
-const ChartTide = () => {
+const ChartTide = ({ day }) => {
   const forecastState = useSelector((state) => state.forecastSpot)
 
   const { data } = forecastState
   const { tides } = data
 
-  console.log(tides)
+  const tidesForTheDay =
+    tides && tides.filter((hour) => hour.time.includes(day))
 
-  const timeLabelsTides =
-    tides &&
-    tides.map((hour) => moment(hour.time).format('h:mm:ss a')).slice(0, 4)
-
-  const tideHeight = tides && tides.map(hour => hour.height)
+  const tideLabels =
+    tidesForTheDay &&
+    tidesForTheDay.map((tide) => tide.time.split('T')[1].split('+')[0].substring(0, 5))
+  const tideHeights =
+    tidesForTheDay && tidesForTheDay.map((tide) => tide.height.toFixed(2))
 
   const dataPeriod = {
-    labels: timeLabelsTides,
+    labels: tideLabels,
     datasets: [
       {
         label: 'Tides',
@@ -39,22 +39,12 @@ const ChartTide = () => {
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
-        data: tideHeight,
+        data: tideHeights,
       },
-      
     ],
   }
 
-  return (
-
-        <Line
-          width={120}
-          height={30}
-          options={{ maintainAspectRatio: true }}
-          data={dataPeriod}
-        />
-
-  )
+  return <Line data={dataPeriod} />
 }
 
 export default ChartTide
