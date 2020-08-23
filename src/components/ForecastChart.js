@@ -1,8 +1,16 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import HeightChart from './HeightChart'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
+import IconButton from '@material-ui/core/IconButton'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import WindChart from './WindChart'
+import ChartTide from './TideChart'
 import PeriodChart from './PeriodChart'
-import ChartTide from './ChartTide'
+import HeightChart from './HeightChart'
+import WeatherTable from './WeatherTable'
 
 const ForecastChart = () => {
   const forecastState = useSelector((state) => state.forecastSpot)
@@ -17,58 +25,25 @@ const ForecastChart = () => {
   const dayForForecast = `${year}-${month}-${day}`
   const { data } = forecastState
   const { forecast } = data
-  const timeLabelsForecast =
-    forecast &&
-    forecast
-      .map((hour) => hour.time.split('T')[1].split('+')[0].substring(0, 5))
-      .reduce(
-        (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
-        [],
-      )
+  const timeLabelsForecast = forecast
+    ? forecast
+        .map((hour) => hour.time.split('T')[1].split('+')[0].substring(0, 5))
+        .reduce(
+          (unique, item) =>
+            unique.includes(item) ? unique : [...unique, item],
+          [],
+        )
+    : null
 
   const forecastForTheDay =
     forecast && forecast.filter((hour) => hour.time.includes(day))
-
-  const dayLabelsForecast =
-    forecast &&
-    forecast
-      .map((hour) => hour.time.split('T')[0])
-      .reduce(
-        (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
-        [],
-      )
 
   const forecastObject = forecastForTheDay
     ? forecastForTheDay.map((hour) => Object.assign({}, ...hour.data))
     : null
 
-  const waveHeight = forecast
-    ? forecastObject.map((hour) => hour.waveHeight.toFixed(2))
-    : null
-
-  const swellHeight = forecast
-    ? forecastObject.map((hour) => hour.swellHeight.toFixed(2))
-    : null
-
-  const secSwellHeight = forecast
-    ? forecastObject.map((hour) => hour.secondarySwellHeight.toFixed(2))
-    : null
-
-  const wavePeriod = forecast
-    ? forecastObject.map((hour) => hour.wavePeriod.toFixed(2))
-    : null
-
-  const swellPeriod = forecast
-    ? forecastObject.map((hour) => hour.swellPeriod.toFixed(2))
-    : null
-
-  const secSwellPeriod = forecast
-    ? forecastObject.map((hour) => hour.secondarySwellPeriod.toFixed(2))
-    : null
-
   const handleClickNextDay = () => {
-    console.log(day)
-    if (day + 1 >= todayState + 5) return
+    if (day + 1 >= todayState + 6) return
     setDay(day + 1)
   }
 
@@ -82,24 +57,71 @@ const ForecastChart = () => {
 
   const dataCharts = {
     timeLabelsForecast,
-    waveHeight,
-    swellHeight,
-    secSwellHeight,
-    wavePeriod,
-    swellPeriod,
-    secSwellPeriod,
+    forecastObject,
   }
 
   return (
     <>
-      <button onClick={handleClickPrevDay}> ieri </button>
-      <button onClick={handleClickNextDay}> domani </button>
+      <Grid
+        justify="space-between" // Add it here :)
+        container
+      >
+        <IconButton onClick={handleClickPrevDay} aria-label="previous">
+          <NavigateBeforeIcon />
+        </IconButton>
 
-      <button onClick={handleClickPeriodChart}> periodo </button>
-      <button onClick={handleClickHeightChart}> altezza </button>
-      {showChart === 'waveHeight' ? <HeightChart day={dayForForecast} dataChart={dataCharts} /> : null}
-      {showChart === 'wavePeriod' ? <PeriodChart day={dayForForecast} dataChart={dataCharts} /> : null}
-      <ChartTide day={dayForForecast} />
+        <Typography variant="h6" gutterBottom>
+          {dayForForecast}
+        </Typography>
+        <IconButton onClick={handleClickNextDay} aria-label="next">
+          <NavigateNextIcon />
+        </IconButton>
+        {showChart === 'waveHeight' && forecastObject ? (
+          <HeightChart day={dayForForecast} dataChart={dataCharts} />
+        ) : null}
+        {showChart === 'wavePeriod' ? (
+          <PeriodChart day={dayForForecast} dataChart={dataCharts} />
+        ) : null}
+        <IconButton onClick={handleClickPrevDay} aria-label="previous">
+          <NavigateBeforeIcon />
+        </IconButton>
+        <Button
+          onClick={handleClickPeriodChart}
+          variant="outlined"
+          size="small"
+          color="primary"
+        >
+          Period
+        </Button>
+        <Button
+          onClick={handleClickHeightChart}
+          variant="outlined"
+          size="small"
+          color="primary"
+        >
+          Height
+        </Button>
+        <IconButton onClick={handleClickNextDay} aria-label="next">
+          <NavigateNextIcon />
+        </IconButton>
+        {forecastObject ? (
+          <WindChart day={dayForForecast} dataChart={dataCharts} />
+        ) : null}
+        <IconButton onClick={handleClickPrevDay} aria-label="previous">
+          <NavigateBeforeIcon />
+        </IconButton>
+        <IconButton onClick={handleClickNextDay} aria-label="next">
+          <NavigateNextIcon />
+        </IconButton>
+        <ChartTide day={dayForForecast} />
+        <IconButton onClick={handleClickPrevDay} aria-label="previous">
+          <NavigateBeforeIcon />
+        </IconButton>
+        <IconButton onClick={handleClickNextDay} aria-label="next">
+          <NavigateNextIcon />
+        </IconButton>
+        {forecastObject ? <WeatherTable dataChart={dataCharts} /> : null}
+      </Grid>
     </>
   )
 }

@@ -119,6 +119,7 @@ function ResponsiveDrawer({ window, children }) {
         <div className={classes.toolbar} />
         <Notification />
         <Breadcrumbs />
+        <Divider />
         {children}
       </Container>
     </div>

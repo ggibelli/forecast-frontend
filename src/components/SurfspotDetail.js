@@ -27,7 +27,7 @@ const SpotDetail = () => {
 
   if (!surfSpot.isLoading) {
     return (
-      <>
+      <div style={{ marginTop: 6 }}>
         <CssBaseline />
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>
@@ -79,7 +79,7 @@ const SpotDetail = () => {
             </div>
           </Grid>
         </Grid>
-      </>
+      </div>
     )
   }
   return (
