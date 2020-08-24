@@ -17,6 +17,9 @@ const PeriodChart = ({ day, dataChart }) => {
   const secSwellDirection = dataChart.forecastObject.map((forecast) =>
     forecast.secondarySwellDirection.toFixed(0),
   )
+  const windWaveDirection = dataChart.forecastObject.map((forecast) =>
+    forecast.windWaveDirection.toFixed(0),
+  )
   const waveDegreeToString = waveDirection.map((degrees) =>
     convertDegrees(degrees),
   )
@@ -24,6 +27,9 @@ const PeriodChart = ({ day, dataChart }) => {
     convertDegrees(degrees),
   )
   const secSwellToString = secSwellDirection.map((degrees) =>
+    convertDegrees(degrees),
+  )
+  const windWaveToString = windWaveDirection.map((degrees) =>
     convertDegrees(degrees),
   )
 
@@ -48,7 +54,6 @@ const PeriodChart = ({ day, dataChart }) => {
         pointHoverBorderColor: 'rgba(55,0,179,1)',
         pointHoverBorderWidth: 2,
         pointRadius: 1,
-
         pointHitRadius: 10,
         pointStyle: chartPoint,
         rotation: waveDirection,
@@ -121,6 +126,36 @@ const PeriodChart = ({ day, dataChart }) => {
         data2: secSwellDirection,
         data3: secSwellToString,
       },
+      {
+        label: 'Wind Wave Period',
+        fill: false,
+        lineTension: 0.4,
+        backgroundColor: 'rgba(211,200,236,0.6)',
+        borderColor: 'rgba(211,200,236,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(211,200,236,1)',
+        pointBackgroundColor: '#D3C8EC',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(211,200,236,1)',
+        pointHoverBorderColor: 'rgba(211,200,236,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        pointStyle: chartPoint,
+        rotation: windWaveDirection,
+        data: dataChart.forecastObject.map((forecast) =>
+          forecast.windWavePeriod.toFixed(2),
+        ),
+        data1: dataChart.forecastObject.map((forecast) =>
+          forecast.windWaveHeight.toFixed(2),
+        ),
+        data2: windWaveDirection,
+        data3: windWaveToString,
+      },
     ],
   }
 
@@ -132,7 +167,6 @@ const PeriodChart = ({ day, dataChart }) => {
         title(tooltipItem, data) {
           return `${day} ${data.labels[tooltipItem[0].index]}`
         },
-
         label(tooltipItem, data) {
           return `${
             data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]

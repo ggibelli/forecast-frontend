@@ -25,21 +25,28 @@ const SpotDetail = () => {
   }, [forecastId, dispatch])
   const tileImage = forecastId ? surfSpot.data.tile_url : spinner
 
+  const forecastNotReady = () =>
+    forecastState.errorMessage ? (
+      <div>{forecastState.errorMessage}</div>
+    ) : (
+      <Skeleton variant="rect" width="100%" height="70vh" />
+    )
+
   if (!surfSpot.isLoading) {
     return (
       <div style={{ marginTop: 6 }}>
         <CssBaseline />
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>
-            {forecastState.isLoading ? (
-              <Skeleton variant="rect" width="100%" height="70vh" />
-            ) : (
+            {!forecastState.isLoading && !forecastState.errorMessage ? (
               <ForecastChart />
+            ) : (
+              forecastNotReady()
             )}
           </Grid>
           <Grid item xs={12} sm={4}>
             <Suspense
-              fallback={<Skeleton variant="rect" width="100%" height="100%" />}
+              fallback={<Skeleton variant="rect" width="100%" height="50%" />}
             >
               <Tooltip title="Coastal view">
                 <ImageComponent src={tileImage} text="Surf spot map tile" />

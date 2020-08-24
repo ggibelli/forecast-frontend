@@ -13,6 +13,9 @@ const HeightChart = ({ day, dataChart }) => {
   const secSwellDirection = dataChart.forecastObject.map((forecast) =>
     forecast.secondarySwellDirection.toFixed(0),
   )
+  const windWaveDirection = dataChart.forecastObject.map((forecast) =>
+    forecast.windWaveDirection.toFixed(0),
+  )
   const waveDegreeToString = waveDirection.map((degrees) =>
     convertDegrees(degrees),
   )
@@ -20,6 +23,9 @@ const HeightChart = ({ day, dataChart }) => {
     convertDegrees(degrees),
   )
   const secSwellToString = secSwellDirection.map((degrees) =>
+    convertDegrees(degrees),
+  )
+  const windWaveToString = windWaveDirection.map((degrees) =>
     convertDegrees(degrees),
   )
   const dataHeight = {
@@ -72,6 +78,22 @@ const HeightChart = ({ day, dataChart }) => {
         ),
         data2: secSwellDirection,
         data3: secSwellToString,
+      },
+      {
+        label: 'Wind Wave Height',
+        backgroundColor: 'rgba(211,200,236,0.6)',
+        borderColor: 'rgba(211,200,236,1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(211,200,236,10.8',
+        hoverBorderColor: 'rgba(211,200,236,1)',
+        data: dataChart.forecastObject.map((forecast) =>
+          forecast.windWaveHeight.toFixed(2),
+        ),
+        data1: dataChart.forecastObject.map((forecast) =>
+          forecast.windWavePeriod.toFixed(2),
+        ),
+        data2: windWaveDirection,
+        data3: windWaveToString,
       },
     ],
   }
