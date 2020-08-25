@@ -34,18 +34,35 @@ export default function Homepage() {
     area = 'regions'
   }
 
+  const errorGps = !!(error && (!id || !area))
+
   const [activePopup, setActivePopup] = useState(null)
   useEffect(() => {
     if (id && area) dispatch(fetchMap(id, area))
   }, [id, area, dispatch])
 
+  useEffect(() => {
+    if (errorGps) {
+      dispatch(
+        setNotification(
+          'Enable the GPS or choose a surfspot from the list.',
+          'error',
+        ),
+      )
+    }
+  }, [errorGps, dispatch])
+
+  useEffect(() => {
+    if (errorMessage) {
+      dispatch(setNotification(errorMessage, 'error'))
+    }
+  }, [errorMessage, dispatch])
+
   const rawCoordinates = []
-  const errorLoading = (message) => <div>{message}</div>
-  if (error) {
-    dispatch(setNotification(error, 'error'))
-    return <div>Error GPS</div>
+
+  if (errorGps || errorMessage) {
+    return <Skeleton variant="rect" width="100%" height="70vh" />
   }
-  if (errorMessage) return errorLoading(errorMessage)
 
   if (data && data.countries && area === 'continents') {
     rawCoordinates.push(

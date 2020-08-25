@@ -7,12 +7,19 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import MenuIcon from '@material-ui/icons/Menu'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import StarIcon from '@material-ui/icons/Star'
 import MoreIcon from '@material-ui/icons/MoreVert'
+import CreateIcon from '@material-ui/icons/Create'
+import LockOpenIcon from '@material-ui/icons/LockOpen'
 import { useSelector, useDispatch } from 'react-redux'
 import storage from '../../utils/storage'
 import { logout } from '../../reducers/user'
@@ -66,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
   const user = useSelector((state) => state.currentUser)
   const dispatch = useDispatch()
-
+  const history = useHistory()
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
@@ -108,10 +115,25 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <ListItemIcon>
+          <StarIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Saved spots" />
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <ListItemIcon>
+          <AddCircleIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Add new spot" />
+      </MenuItem>
       <Divider />
-      <MenuItem onClick={handleLogout}>Log out</MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <ListItemIcon>
+          <ExitToAppIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Log out" />
+      </MenuItem>
     </Menu>
   )
 
@@ -126,17 +148,34 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {user ? (
+        <MenuItem onClick={handleProfileMenuOpen}>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <p>Profile</p>
+        </MenuItem>
+      ) : (
+        <div>
+          <MenuItem onClick={() => history.push('/login')}>
+            <ListItemIcon>
+              <LockOpenIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Log in" />
+          </MenuItem>
+          <MenuItem onClick={() => history.push('/signup')}>
+            <ListItemIcon>
+              <CreateIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Sign up" />
+          </MenuItem>
+        </div>
+      )}
     </Menu>
   )
 
@@ -155,10 +194,22 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
 
   const buttonLoggedout = (
     <>
-      <Button component={Link} to="/login" color="default">
+      <Button
+        component={Link}
+        to="/login"
+        color="primary"
+        variant="contained"
+        disableElevation
+      >
         Login
       </Button>
-      <Button component={Link} to="/signup" color="default">
+      <Button
+        component={Link}
+        to="/signup"
+        color="primary"
+        variant="contained"
+        disableElevation
+      >
         Sign Up
       </Button>
     </>

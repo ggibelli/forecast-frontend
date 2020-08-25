@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { fetchSpot } from '../reducers/spotDetail'
 import { fetchForecast } from '../reducers/forecastSpot'
 import spinner from '../static/spinner.gif'
+import { setNotification } from '../reducers/notification'
 import ImageComponent from './ImageComponent'
 import ForecastChart from './ForecastChart'
 
@@ -15,7 +16,7 @@ const SpotDetail = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const surfSpot = useSelector((state) => state.spotDetail)
-  const forecastState = useSelector((state) => state.forecastSpot)
+  const { errorMessage, isLoading } = useSelector((state) => state.forecastSpot)
   const forecastId = surfSpot.data.forecast ? surfSpot.data.forecast.id : null
   useEffect(() => {
     if (id) dispatch(fetchSpot(id))
@@ -23,11 +24,14 @@ const SpotDetail = () => {
   useEffect(() => {
     if (forecastId) dispatch(fetchForecast(forecastId))
   }, [forecastId, dispatch])
+  useEffect(() => {
+    if (errorMessage) dispatch(setNotification(errorMessage, 'error'))
+  })
   const tileImage = forecastId ? surfSpot.data.tile_url : spinner
 
   const forecastNotReady = () =>
-    forecastState.errorMessage ? (
-      <div>{forecastState.errorMessage}</div>
+    errorMessage ? (
+      <div>{errorMessage}</div>
     ) : (
       <Skeleton variant="rect" width="100%" height="70vh" />
     )
@@ -38,7 +42,7 @@ const SpotDetail = () => {
         <CssBaseline />
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>
-            {!forecastState.isLoading && !forecastState.errorMessage ? (
+            {!isLoading && !errorMessage ? (
               <ForecastChart />
             ) : (
               forecastNotReady()

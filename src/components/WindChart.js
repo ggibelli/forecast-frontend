@@ -49,7 +49,7 @@ const WindChart = ({ day, dataChart }) => {
         borderDashOffset: 0.0,
         borderJoinStyle: 'miter',
         pointBorderColor: 'rgba(55,0,179,1)',
-        pointBackgroundColor: '#3700b3',
+        pointBackgroundColor: '#D3C8EC',
         pointBorderWidth: 1,
         pointHoverRadius: 5,
         pointHoverBackgroundColor: 'rgba(55,0,179,1)',
