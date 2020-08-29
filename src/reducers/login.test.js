@@ -1,4 +1,4 @@
-import reducer from './user'
+import reducer from './login'
 
 const user = { email: 'abc@cbd.com', token: 12345 }
 

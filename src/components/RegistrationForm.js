@@ -14,7 +14,7 @@ import Container from '@material-ui/core/Container'
 import storage from '../utils/storage'
 import { setNotification } from '../reducers/notification'
 import registrationService from '../services/registration'
-import { login } from '../reducers/user'
+import { login } from '../reducers/login'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -54,7 +54,6 @@ export default function SignUp() {
         lastName: event.target.lastName.value,
         email: event.target.email.value,
       })
-      // dispatch(login(user))
       dispatch(setNotification(`${user.firstName} welcome aboard!`))
       storage.saveUser(user)
       dispatch(login(user))

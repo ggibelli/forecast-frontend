@@ -20,9 +20,10 @@ import StarIcon from '@material-ui/icons/Star'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import CreateIcon from '@material-ui/icons/Create'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
+import PersonIcon from '@material-ui/icons/Person'
 import { useSelector, useDispatch } from 'react-redux'
 import storage from '../../utils/storage'
-import { logout } from '../../reducers/user'
+import { logout } from '../../reducers/login'
 import ComboBox from './ComboBox'
 
 const useStyles = makeStyles((theme) => ({
@@ -104,6 +105,10 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
     handleMenuClose()
   }
 
+  const handleProfile = () => {
+    history.push(`/profile/${user.id}`)
+  }
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -115,6 +120,12 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem onClick={handleProfile}>
+        <ListItemIcon>
+          <PersonIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Profile" />
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
           <StarIcon fontSize="small" />

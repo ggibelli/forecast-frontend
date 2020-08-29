@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import storage from './utils/storage'
 import { initializeSpots } from './reducers/nestedSurfspots'
 import { initializeSearch } from './reducers/allSpotsSearch'
-import { login } from './reducers/user'
+import { login } from './reducers/login'
 
 import Routes from './components/Routes'
 const App = () => {
