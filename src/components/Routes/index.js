@@ -5,7 +5,7 @@ import Route from './Route'
 import SurfSpotDetail from '../SurfspotDetail'
 import LoginForm from '../LoginForm'
 import RegistrationForm from '../RegistrationForm'
-import Homepage from '../Homepage'
+import Map from '../Map'
 import UserProfile from '../UserProfile'
 
 const Routes = () => (
@@ -14,7 +14,7 @@ const Routes = () => (
     <Route path="/login" component={LoginForm} />
     <Route path="/signup" component={RegistrationForm} />
     <Route path="/profile/:id" component={UserProfile} />
-    <Route path={['/:area/:id', '/']} component={Homepage} />
+    <Route path={['/:area/:id', '/']} component={Map} />
   </Switch>
 )
 

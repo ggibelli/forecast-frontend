@@ -11,7 +11,9 @@ import spinner from '../static/spinner.gif'
 import { setNotification } from '../reducers/notification'
 import ImageComponent from './ImageComponent'
 import ForecastChart from './ForecastChart'
+import Starred from './Starred'
 
+// aggiungo no spot found!!!!
 const SpotDetail = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
@@ -42,8 +44,12 @@ const SpotDetail = () => {
         <CssBaseline />
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>
+            
             {!isLoading && !errorMessage ? (
+              <>
+              <Starred spotId={id} />
               <ForecastChart />
+              </>
             ) : (
               forecastNotReady()
             )}

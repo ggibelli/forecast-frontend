@@ -29,6 +29,7 @@ export default function SimpleBreadcrumbs() {
         </Link>
         <Typography color="textPrimary">
           {urlLocation.charAt(0).toUpperCase() + urlLocation.slice(1)}
+          
         </Typography>
       </Breadcrumbs>
     )

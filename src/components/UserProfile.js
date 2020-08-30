@@ -8,7 +8,7 @@ const UserProfile = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getProfile(id))
-  }, [dispatch])
+  }, [dispatch, id])
   const profile = useSelector((state) => state.userProfile)
   if (!profile) return null
   return <div>can</div>

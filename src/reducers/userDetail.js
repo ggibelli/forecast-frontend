@@ -1,7 +1,6 @@
 import userService from '../services/users'
 
 const reducer = (state = null, action) => {
-  console.log(action)
   switch (action.type) {
     case 'PROFILE':
       return action.data
@@ -10,7 +9,7 @@ const reducer = (state = null, action) => {
     case 'REMOVE_STAR':
       return {
         ...state,
-        starredSpots: state.starredSpots.map((spot) => spot.id !== action.data),
+        starredSpots: action.data,
       }
     default:
       return state
@@ -27,17 +26,19 @@ export const getProfile = (id) => async (dispatch) => {
 
 export const addStarSpot = (id, spot) => async (dispatch) => {
   const data = await userService.addStarred(id, spot)
+  const { starredSpots } = data
   dispatch({
     type: 'ADD_STAR',
-    data,
+    data: starredSpots.map((starred) => starred.id),
   })
 }
 
 export const removeStarSpot = (id, spot) => async (dispatch) => {
   const data = await userService.removeStarred(id, spot)
+  const { starredSpots } = data
   dispatch({
     type: 'REMOVE_STAR',
-    data,
+    data: starredSpots.map((starred) => starred.id),
   })
 }
 

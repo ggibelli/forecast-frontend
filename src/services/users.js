@@ -20,7 +20,7 @@ const getUser = async (id) => {
 const addStarred = async (id, spot) => {
   const response = await axios.put(
     `${baseUrl}/${id}/starred/add`,
-    spot,
+    { id: spot },
     setConfig(),
   )
   return response.data
@@ -29,7 +29,7 @@ const addStarred = async (id, spot) => {
 const removeStarred = async (id, spot) => {
   const response = await axios.put(
     `${baseUrl}/${id}/starred/remove`,
-    spot,
+    { id: spot },
     setConfig(),
   )
   return response.data
