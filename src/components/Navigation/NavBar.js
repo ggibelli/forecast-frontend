@@ -109,6 +109,10 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
     history.push(`/profile/${user.id}`)
   }
 
+  const handleAddSpot = () => {
+    history.push('/addspot')
+  }
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -132,7 +136,7 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
         </ListItemIcon>
         <ListItemText primary="Saved spots" />
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleAddSpot}>
         <ListItemIcon>
           <AddCircleIcon fontSize="small" />
         </ListItemIcon>

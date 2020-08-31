@@ -7,6 +7,7 @@ import LoginForm from '../LoginForm'
 import RegistrationForm from '../RegistrationForm'
 import Map from '../Map'
 import UserProfile from '../UserProfile'
+import AddSpot from '../AddSpot'
 
 const Routes = () => (
   <Switch>
@@ -14,6 +15,7 @@ const Routes = () => (
     <Route path="/login" component={LoginForm} />
     <Route path="/signup" component={RegistrationForm} />
     <Route path="/profile/:id" component={UserProfile} />
+    <Route path="/addspot" component={AddSpot} />
     <Route path={['/:area/:id', '/']} component={Map} />
   </Switch>
 )
