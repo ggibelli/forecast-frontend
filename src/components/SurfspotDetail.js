@@ -44,11 +44,10 @@ const SpotDetail = () => {
         <CssBaseline />
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>
-            
             {!isLoading && !errorMessage ? (
               <>
-              <Starred spotId={id} />
-              <ForecastChart />
+                <Starred spotId={id} />
+                <ForecastChart />
               </>
             ) : (
               forecastNotReady()

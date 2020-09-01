@@ -18,6 +18,7 @@ import Switch from '@material-ui/core/Switch'
 import FormLabel from '@material-ui/core/FormLabel'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
+import customHooks from '../utils/customHooks'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,6 +42,59 @@ const useStyles = makeStyles((theme) => ({
 
 const AddSpot = () => {
   const dispatch = useDispatch()
+  const surfspots = useSelector((state) => state.surfspots)
+  const continents = []
+  const countries = []
+  const regions = []
+  if (surfspots) {
+    surfspots.forEach((spot) => {
+      continents.push({ name: spot.name, id: spot.id })
+      spot.countries.map((country) =>
+        countries.push({
+          name: country.name,
+          id: country.id,
+          continent: spot.id,
+        }),
+      )
+      spot.countries.map((country) =>
+        country.regions.map((region) =>
+          regions.push({
+            name: region.name,
+            id: region.id,
+            country: country.id,
+          }),
+        ),
+      )
+    })
+  }
+  const checkValidityName = (name) => {
+    if (name.length > 2 || !name) return true
+    return false
+  }
+
+  const latitudeIsValid = (latitude) => {
+    if (!latitude) return true
+    return /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/.test(
+      latitude,
+    )
+  }
+
+  const longitudeIsValid = (longitude) => {
+    if (!longitude) return true
+    return /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/.test(
+      longitude,
+    )
+  }
+
+  const name = customHooks.useField(checkValidityName)
+  const latitude = customHooks.useField(latitudeIsValid)
+  const longitude = customHooks.useField(longitudeIsValid)
+  const isSecret = customHooks.useCheckField()
+  const continentField = customHooks.useField()
+  const countryField = customHooks.useField()
+  const regionField = customHooks.useField()
+  const disableRegionField = !!(!continentField.value || !countryField.value)
+  console.log(continentField.value, countryField.value)
   const classes = useStyles()
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -80,11 +134,11 @@ const AddSpot = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                name="spotName"
+                {...name}
                 variant="outlined"
                 required
                 fullWidth
-                id="spotName"
+                id="spot-name"
                 label="Spot Name"
                 helperText="The spot name must be longer than 2 characters"
                 autoFocus
@@ -92,7 +146,7 @@ const AddSpot = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                name="latitude"
+                {...latitude}
                 variant="outlined"
                 required
                 fullWidth
@@ -104,7 +158,7 @@ const AddSpot = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                name="longitude"
+                {...longitude}
                 variant="outlined"
                 required
                 fullWidth
@@ -116,7 +170,7 @@ const AddSpot = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Switch name="isSecret" />}
+                control={<Switch {...isSecret} />}
                 label="Secret spot"
               />
             </Grid>
@@ -125,37 +179,50 @@ const AddSpot = () => {
                 <InputLabel htmlFor="uncontrolled-native">Continent</InputLabel>
                 <Select
                   native
-                  defaultValue={30}
+                  {...continentField}
                   inputProps={{
                     name: 'continent',
                     id: 'continent',
                   }}
                 >
-                  <option value={10}>Ten</option>
-                  <option value={20}>Twenty</option>
-                  <option value={30}>Thirty</option>
+                  <option aria-label="None" value="" />
+                  {continents.map((continent) => (
+                    <option key={continent.id} value={continent.id}>
+                      {continent.name}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControl
                 className={classes.formControl}
-                disabled
+                disabled={!continentField.value}
                 fullWidth
                 required
               >
                 <InputLabel htmlFor="uncontrolled-native">Country</InputLabel>
                 <Select
                   native
-                  defaultValue={30}
+                  {...countryField}
                   inputProps={{
-                    name: 'continent',
-                    id: 'continent',
+                    name: 'country',
+                    id: 'country',
                   }}
                 >
-                  <option value={10}>Ten</option>
-                  <option value={20}>Twenty</option>
-                  <option value={30}>Thirty</option>
+                  <option aria-label="None" value="" />
+                  {countries
+                    .filter(
+                      (country) => country.continent === continentField.value,
+                    )
+                    .map((filteredCountry) => (
+                      <option
+                        key={filteredCountry.id}
+                        value={filteredCountry.id}
+                      >
+                        {filteredCountry.name}
+                      </option>
+                    ))}
                 </Select>
                 <FormHelperText>Choose the Continent first</FormHelperText>
               </FormControl>
@@ -163,22 +230,27 @@ const AddSpot = () => {
             <Grid item xs={12}>
               <FormControl
                 className={classes.formControl}
-                disabled
+                disabled={disableRegionField}
                 fullWidth
                 required
               >
                 <InputLabel htmlFor="uncontrolled-native">Region</InputLabel>
                 <Select
                   native
-                  defaultValue={30}
+                  {...regionField}
                   inputProps={{
-                    name: 'continent',
-                    id: 'continent',
+                    name: 'region',
+                    id: 'region',
                   }}
                 >
-                  <option value={10}>Ten</option>
-                  <option value={20}>Twenty</option>
-                  <option value={30}>Thirty</option>
+                  <option aria-label="None" value="" />
+                  {regions
+                    .filter((region) => region.country === countryField.value)
+                    .map((filteredRegion) => (
+                      <option key={filteredRegion.id} value={filteredRegion.id}>
+                        {filteredRegion.name}
+                      </option>
+                    ))}
                 </Select>
                 <FormHelperText>Choose the Country first</FormHelperText>
               </FormControl>
