@@ -8,17 +8,16 @@ import AddCircleIcon from '@material-ui/icons/AddCircle'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import FormLabel from '@material-ui/core/FormLabel'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
 import customHooks from '../utils/customHooks'
+import SimpleTextField from './SimpleTextField'
+import SimpleRadioField from './SimpleRadioField'
+import MultipleSelectField from './MultipleSelectField'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,30 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const AddSpot = () => {
   const dispatch = useDispatch()
   const surfspots = useSelector((state) => state.surfspots)
-  const continents = []
-  const countries = []
-  const regions = []
-  if (surfspots) {
-    surfspots.forEach((spot) => {
-      continents.push({ name: spot.name, id: spot.id })
-      spot.countries.map((country) =>
-        countries.push({
-          name: country.name,
-          id: country.id,
-          continent: spot.id,
-        }),
-      )
-      spot.countries.map((country) =>
-        country.regions.map((region) =>
-          regions.push({
-            name: region.name,
-            id: region.id,
-            country: country.id,
-          }),
-        ),
-      )
-    })
-  }
+
   const checkValidityName = (name) => {
     if (name.length > 2 || !name) return true
     return false
@@ -90,13 +66,36 @@ const AddSpot = () => {
   const latitude = customHooks.useField(latitudeIsValid)
   const longitude = customHooks.useField(longitudeIsValid)
   const isSecret = customHooks.useCheckField()
-  const continentField = customHooks.useField()
-  const countryField = customHooks.useField()
-  const regionField = customHooks.useField()
-  const disableRegionField = !!(!continentField.value || !countryField.value)
-  console.log(continentField.value, countryField.value)
+  const continentField = customHooks.useFieldNoError()
+  const countryField = customHooks.useFieldNoError()
+  const regionField = customHooks.useFieldNoError()
+  const waveTypeField = customHooks.useFieldNoError()
+  const waveDirectionField = customHooks.useFieldNoError()
+  const seaBottomField = customHooks.useFieldNoError()
+  const goodSwellDirectionField = customHooks.useMultipleSelect()
+  const goodWindDirectionField = customHooks.useMultipleSelect()
+  const bestTidePositionField = customHooks.useMultipleSelect()
+  const bestTideMovementField = customHooks.useMultipleSelect()
+  const dangersField = customHooks.useMultipleSelect()
+  const continents = surfspots
+    ? surfspots.map((continent) => ({ name: continent.name, id: continent.id }))
+    : null
+  const countries = surfspots
+    ? surfspots
+        .filter((continent) => continent.id === continentField.value)
+        .map((continent) => continent.countries)
+        .flat()
+    : null
+  const regions = countries
+    ? countries
+        .filter((country) => country.id === countryField.value)
+        .map((country) => country.regions)
+        .flat()
+    : null
+  const enableRegionField = !!(continentField.value && countryField.value)
   const classes = useStyles()
   const handleSubmit = (event) => {
+    console.log(waveTypeField.value)
     event.preventDefault()
   }
   const directions = [
@@ -130,42 +129,30 @@ const AddSpot = () => {
         <Typography component="h1" variant="h5">
           Add a new spot
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                {...name}
-                variant="outlined"
-                required
-                fullWidth
+              <SimpleTextField
+                state={name}
                 id="spot-name"
                 label="Spot Name"
-                helperText="The spot name must be longer than 2 characters"
-                autoFocus
+                helperText="The name must be longer than 2 characters"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                {...latitude}
-                variant="outlined"
-                required
-                fullWidth
+              <SimpleTextField
+                state={latitude}
                 id="latitude"
                 label="Latitude"
                 helperText="The latitude range is between 90 and -90"
-                autoFocus
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                {...longitude}
-                variant="outlined"
-                required
-                fullWidth
+              <SimpleTextField
+                state={longitude}
                 id="longitude"
                 label="Longitude"
                 helperText="The longitude range is between 180 and -180"
-                autoFocus
               />
             </Grid>
             <Grid item xs={12}>
@@ -176,8 +163,10 @@ const AddSpot = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControl className={classes.formControl} fullWidth required>
-                <InputLabel htmlFor="uncontrolled-native">Continent</InputLabel>
+                <InputLabel id="uncontrolled-native">Continent</InputLabel>
                 <Select
+                  labelId="uncontrolled-native"
+                  id="continent"
                   native
                   {...continentField}
                   inputProps={{
@@ -211,18 +200,11 @@ const AddSpot = () => {
                   }}
                 >
                   <option aria-label="None" value="" />
-                  {countries
-                    .filter(
-                      (country) => country.continent === continentField.value,
-                    )
-                    .map((filteredCountry) => (
-                      <option
-                        key={filteredCountry.id}
-                        value={filteredCountry.id}
-                      >
-                        {filteredCountry.name}
-                      </option>
-                    ))}
+                  {countries.map((filteredCountry) => (
+                    <option key={filteredCountry.id} value={filteredCountry.id}>
+                      {filteredCountry.name}
+                    </option>
+                  ))}
                 </Select>
                 <FormHelperText>Choose the Continent first</FormHelperText>
               </FormControl>
@@ -230,7 +212,7 @@ const AddSpot = () => {
             <Grid item xs={12}>
               <FormControl
                 className={classes.formControl}
-                disabled={disableRegionField}
+                disabled={!enableRegionField}
                 fullWidth
                 required
               >
@@ -244,120 +226,9 @@ const AddSpot = () => {
                   }}
                 >
                   <option aria-label="None" value="" />
-                  {regions
-                    .filter((region) => region.country === countryField.value)
-                    .map((filteredRegion) => (
-                      <option key={filteredRegion.id} value={filteredRegion.id}>
-                        {filteredRegion.name}
-                      </option>
-                    ))}
-                </Select>
-                <FormHelperText>Choose the Country first</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl component="fieldset" fullWidth>
-                <FormLabel component="legend">Type</FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="Type"
-                  name="type"
-                  defaultValue="Beach break"
-                >
-                  <FormControlLabel
-                    value="Beach break"
-                    control={<Radio color="primary" />}
-                    label="Beach break"
-                  />
-                  <FormControlLabel
-                    value="Reef break"
-                    control={<Radio color="primary" />}
-                    label="Reef break"
-                  />
-                  <FormControlLabel
-                    value="Point break"
-                    control={<Radio color="primary" />}
-                    label="Point break"
-                  />
-                  <FormControlLabel
-                    value="Rivermouth break"
-                    control={<Radio color="primary" />}
-                    label="Rivermouth break"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl component="fieldset" fullWidth>
-                <FormLabel component="legend">Direction</FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="direction"
-                  name="direction"
-                  defaultValue="Left"
-                >
-                  <FormControlLabel
-                    value="Left"
-                    control={<Radio color="primary" />}
-                    label="Left"
-                  />
-                  <FormControlLabel
-                    value="Right"
-                    control={<Radio color="primary" />}
-                    label="Right"
-                  />
-                  <FormControlLabel
-                    value="Both"
-                    control={<Radio color="primary" />}
-                    label="Both"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl component="fieldset" fullWidth>
-                <FormLabel component="legend">Bottom</FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="bottom"
-                  name="bottom"
-                  defaultValue="Sand"
-                >
-                  <FormControlLabel
-                    value="Sand"
-                    control={<Radio color="primary" />}
-                    label="Sand"
-                  />
-                  <FormControlLabel
-                    value="Reef"
-                    control={<Radio color="primary" />}
-                    label="Reef"
-                  />
-                  <FormControlLabel
-                    value="Rocks"
-                    control={<Radio color="primary" />}
-                    label="Rocks"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel htmlFor="uncontrolled-native">
-                  Good swell direction
-                </InputLabel>
-                <Select
-                  native
-                  multiple
-                  defaultValue={directions}
-                  inputProps={{
-                    name: 'good_swell_direction',
-                    id: 'good-swell-direction',
-                  }}
-                >
-                  {directions.map((direction) => (
-                    <option key={direction} value={direction}>
-                      {direction}
+                  {regions.map((filteredRegion) => (
+                    <option key={filteredRegion.id} value={filteredRegion.id}>
+                      {filteredRegion.name}
                     </option>
                   ))}
                 </Select>
@@ -365,94 +236,78 @@ const AddSpot = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel htmlFor="uncontrolled-native">
-                  Good wind direction
-                </InputLabel>
-                <Select
-                  native
-                  multiple
-                  defaultValue={directions}
-                  inputProps={{
-                    name: 'good_wind_direction',
-                    id: 'good-wind-direction',
-                  }}
-                >
-                  {directions.map((direction) => (
-                    <option key={direction} value={direction}>
-                      {direction}
-                    </option>
-                  ))}
-                </Select>
-                <FormHelperText>Choose the Country first</FormHelperText>
-              </FormControl>
+              <SimpleRadioField
+                state={waveTypeField}
+                legend="Type"
+                name="type"
+                options={[
+                  'Beach Break',
+                  'Reef Break',
+                  'Point Break',
+                  'Rivermouth Break',
+                ]}
+              />
             </Grid>
             <Grid item xs={12}>
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel htmlFor="uncontrolled-native">
-                  Best tide position
-                </InputLabel>
-                <Select
-                  native
-                  multiple
-                  defaultValue={tides}
-                  inputProps={{
-                    name: 'best_tide_position',
-                    id: 'best-tide-position',
-                  }}
-                >
-                  {tides.map((tide) => (
-                    <option key={tide} value={tide}>
-                      {tide}
-                    </option>
-                  ))}
-                </Select>
-                <FormHelperText>Choose the Country first</FormHelperText>
-              </FormControl>
+              <SimpleRadioField
+                state={waveDirectionField}
+                legend="Direction"
+                name="direction"
+                options={['Left', 'Right']}
+              />
             </Grid>
             <Grid item xs={12}>
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel htmlFor="uncontrolled-native">
-                  Best tide movement
-                </InputLabel>
-                <Select
-                  native
-                  multiple
-                  defaultValue={tidesMovement}
-                  inputProps={{
-                    name: 'best_tide_movement',
-                    id: 'best-tide-movement',
-                  }}
-                >
-                  {tidesMovement.map((tide) => (
-                    <option key={tide} value={tide}>
-                      {tide}
-                    </option>
-                  ))}
-                </Select>
-                <FormHelperText>Choose the Country first</FormHelperText>
-              </FormControl>
+              <SimpleRadioField
+                state={seaBottomField}
+                legend="Bottom"
+                name="bottom"
+                options={['Sand', 'Reef', 'Rocks']}
+              />
             </Grid>
             <Grid item xs={12}>
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel htmlFor="uncontrolled-native">Dangers</InputLabel>
-                <Select
-                  native
-                  multiple
-                  defaultValue={dangers}
-                  inputProps={{
-                    name: 'dangers',
-                    id: 'dangers',
-                  }}
-                >
-                  {dangers.map((danger) => (
-                    <option key={danger} value={danger}>
-                      {danger}
-                    </option>
-                  ))}
-                </Select>
-                <FormHelperText>Choose the Country first</FormHelperText>
-              </FormControl>
+              <MultipleSelectField
+                state={goodSwellDirectionField}
+                id="good-swell"
+                label="Good swell direction"
+                labelId="good-swell-label"
+                options={directions}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MultipleSelectField
+                state={goodWindDirectionField}
+                id="good-wind"
+                label="Good wind direction"
+                labelId="good-wind-label"
+                options={directions}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MultipleSelectField
+                state={bestTidePositionField}
+                id="best-tide-position"
+                label="Best tide position"
+                labelId="best-tide-position-label"
+                options={tides}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MultipleSelectField
+                state={bestTideMovementField}
+                id="best-tide-movement"
+                label="Best tide movement"
+                labelId="best-tide-movement-label"
+                options={tidesMovement}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MultipleSelectField
+                state={dangersField}
+                id="dangers"
+                label="Dangers"
+                labelId="dangers-label"
+                options={dangers}
+              />
             </Grid>
           </Grid>
           <Button

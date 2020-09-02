@@ -11,7 +11,7 @@ export default function SimpleBreadcrumbs() {
   const locationBreadcrumbs = useSelector((state) => state.spotDetail)
   const mapLocationBreadcrumbs = useSelector(({ mapToShow }) => mapToShow.data)
   const { pathname } = useLocation()
-  const urlLocation = pathname.split('/')[1]
+  const urlLocation = pathname.split('/')
   useEffect(() => {
     setBreadcrumbActive(false)
   }, [mapLocationBreadcrumbs])
@@ -21,15 +21,14 @@ export default function SimpleBreadcrumbs() {
   const [breadcrumbActive, setBreadcrumbActive] = useState(false)
   const { continent, country, region, name } = locationBreadcrumbs.data
 
-  if (urlLocation === 'signup' || urlLocation === 'login') {
+  if (urlLocation.length === 2) {
     return (
       <Breadcrumbs aria-label="breadcrumb">
         <Link color="inherit" component={RouterLink} to="/">
           Home
         </Link>
         <Typography color="textPrimary">
-          {urlLocation.charAt(0).toUpperCase() + urlLocation.slice(1)}
-          
+          {urlLocation[1].charAt(0).toUpperCase() + urlLocation[1].slice(1)}
         </Typography>
       </Breadcrumbs>
     )
