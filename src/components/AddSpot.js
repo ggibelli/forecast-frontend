@@ -18,6 +18,8 @@ import customHooks from '../utils/customHooks'
 import SimpleTextField from './SimpleTextField'
 import SimpleRadioField from './SimpleRadioField'
 import MultipleSelectField from './MultipleSelectField'
+import formHelper from '../utils/formHelper'
+import { createSurfspot } from '../reducers/allSpotsSearch'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,30 +43,10 @@ const useStyles = makeStyles((theme) => ({
 
 const AddSpot = () => {
   const dispatch = useDispatch()
-  const surfspots = useSelector((state) => state.surfspots)
-
-  const checkValidityName = (name) => {
-    if (name.length > 2 || !name) return true
-    return false
-  }
-
-  const latitudeIsValid = (latitude) => {
-    if (!latitude) return true
-    return /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/.test(
-      latitude,
-    )
-  }
-
-  const longitudeIsValid = (longitude) => {
-    if (!longitude) return true
-    return /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/.test(
-      longitude,
-    )
-  }
-
-  const name = customHooks.useField(checkValidityName)
-  const latitude = customHooks.useField(latitudeIsValid)
-  const longitude = customHooks.useField(longitudeIsValid)
+  const {surfspots, currentUser} = useSelector((state) => state)
+  const name = customHooks.useField(formHelper.checkValidityName)
+  const latitude = customHooks.useField(formHelper.latitudeIsValid)
+  const longitude = customHooks.useField(formHelper.longitudeIsValid)
   const isSecret = customHooks.useCheckField()
   const continentField = customHooks.useFieldNoError()
   const countryField = customHooks.useFieldNoError()
@@ -92,33 +74,32 @@ const AddSpot = () => {
         .map((country) => country.regions)
         .flat()
     : null
+
+  
   const enableRegionField = !!(continentField.value && countryField.value)
   const classes = useStyles()
   const handleSubmit = (event) => {
-    console.log(waveTypeField.value)
+    const newSpot = {
+      continent: continentField.value,
+      country: countryField.value,
+      region: regionField.value,
+      name: name.value,
+      latitude: latitude.value,
+      longitude: longitude.value,
+      type: waveTypeField.value,
+      direction: waveDirectionField.value,
+      bottom: seaBottomField.value,
+      good_swell_direction: goodSwellDirectionField.value.join(', '),
+      good_wind_direction: goodWindDirectionField.value.join(', '),
+      best_tide_position: bestTidePositionField.value.join(', '),
+      best_tide_movement: bestTideMovementField.value.join(', '),
+      dangers: dangersField.value.join(', '),
+      isSecret: isSecret.checked,
+      user: currentUser.id,
+    }
+    dispatch(createSurfspot(newSpot))
     event.preventDefault()
   }
-  const directions = [
-    'North',
-    'NorthEast',
-    'East',
-    'SouthEast',
-    'South',
-    'SouthWest',
-    'West',
-    'NorthWest',
-  ]
-  const tidesMovement = ['Rising tide', 'Falling tide']
-  const tides = ['High tide', 'Mid tide', 'Low tide']
-  const dangers = [
-    'Rocks',
-    'Sharks',
-    'Localism',
-    'Pollution',
-    'man-made danger (buoys etc..)',
-    'Urchins',
-    'Rips',
-  ]
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -270,7 +251,7 @@ const AddSpot = () => {
                 id="good-swell"
                 label="Good swell direction"
                 labelId="good-swell-label"
-                options={directions}
+                options={formHelper.directions}
               />
             </Grid>
             <Grid item xs={12}>
@@ -279,7 +260,7 @@ const AddSpot = () => {
                 id="good-wind"
                 label="Good wind direction"
                 labelId="good-wind-label"
-                options={directions}
+                options={formHelper.directions}
               />
             </Grid>
             <Grid item xs={12}>
@@ -288,7 +269,7 @@ const AddSpot = () => {
                 id="best-tide-position"
                 label="Best tide position"
                 labelId="best-tide-position-label"
-                options={tides}
+                options={formHelper.tides}
               />
             </Grid>
             <Grid item xs={12}>
@@ -297,7 +278,7 @@ const AddSpot = () => {
                 id="best-tide-movement"
                 label="Best tide movement"
                 labelId="best-tide-movement-label"
-                options={tidesMovement}
+                options={formHelper.tidesMovement}
               />
             </Grid>
             <Grid item xs={12}>
@@ -306,7 +287,7 @@ const AddSpot = () => {
                 id="dangers"
                 label="Dangers"
                 labelId="dangers-label"
-                options={dangers}
+                options={formHelper.dangers}
               />
             </Grid>
           </Grid>
