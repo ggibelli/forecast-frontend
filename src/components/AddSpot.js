@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -20,6 +21,8 @@ import SimpleRadioField from './SimpleRadioField'
 import MultipleSelectField from './MultipleSelectField'
 import formHelper from '../utils/formHelper'
 import { createSurfspot } from '../reducers/allSpotsSearch'
+import { setNotification } from '../reducers/notification'
+import { createSurfspotMenu } from '../reducers/nestedSurfspots'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
 
 const AddSpot = () => {
   const dispatch = useDispatch()
-  const {surfspots, currentUser} = useSelector((state) => state)
+  const history = useHistory()
+  const { surfspots, currentUser } = useSelector((state) => state)
   const name = customHooks.useField(formHelper.checkValidityName)
   const latitude = customHooks.useField(formHelper.latitudeIsValid)
   const longitude = customHooks.useField(formHelper.longitudeIsValid)
@@ -75,10 +79,10 @@ const AddSpot = () => {
         .flat()
     : null
 
-  
   const enableRegionField = !!(continentField.value && countryField.value)
   const classes = useStyles()
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     const newSpot = {
       continent: continentField.value,
       country: countryField.value,
@@ -97,9 +101,17 @@ const AddSpot = () => {
       isSecret: isSecret.checked,
       user: currentUser.id,
     }
-    dispatch(createSurfspot(newSpot))
-    event.preventDefault()
+    const createdSpot = await formHelper.newSpot(newSpot)
+    if (!createdSpot.error) {
+      dispatch(createSurfspot(createdSpot))
+      dispatch(createSurfspotMenu(createdSpot))
+      dispatch(setNotification(`New spot added`))
+      history.push('/')
+    } else {
+      dispatch(setNotification(`${createdSpot.error}`, 'error'))
+    }
   }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

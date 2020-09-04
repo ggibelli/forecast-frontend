@@ -22,7 +22,7 @@ const ForecastChart = () => {
   // I set the number of the day splitting the date (pos0 year, pos1 month, pos2 day)
   const [day, setDay] = useState(todayState)
   const [year, month] = splittedDate
-  const dayForForecast = `${year}-${month}-${day}`
+  const dayForForecast = day < 10 ? `${year}-${month}-0${day}` : `${year}-${month}-${day}`
   const { data } = forecastState
   const { forecast } = data
   const timeLabelsForecast = forecast
@@ -36,7 +36,7 @@ const ForecastChart = () => {
     : null
 
   const forecastForTheDay =
-    forecast && forecast.filter((hour) => hour.time.includes(day))
+    forecast && forecast.filter((hour) => hour.time.includes(dayForForecast))
 
   const forecastObject = forecastForTheDay
     ? forecastForTheDay.map((hour) => Object.assign({}, ...hour.data))

@@ -1,12 +1,11 @@
 import surfspotService from '../services/surfspots'
 
 const reducer = (state = [], action) => {
-  console.log(action)
   switch (action.type) {
     case 'INIT_SEARCH':
       return action.data
-    case 'NEW_SPOT':
-      return [...state]
+    case 'NEW_SPOT_SEARCH':
+      return action.data.isSecret ? [...state] : [...state, action.data]
     default:
       return state
   }
@@ -20,10 +19,9 @@ export const initializeSearch = () => async (dispatch) => {
   })
 }
 
-export const createSurfspot = (newSpot) => async (dispatch) => {
-  const data = await surfspotService.create(newSpot)
+export const createSurfspot = (data) => async (dispatch) => {
   dispatch({
-    type: 'NEW_SPOT',
+    type: 'NEW_SPOT_SEARCH',
     data,
   })
 }

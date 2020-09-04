@@ -1,3 +1,23 @@
+import surfspotService from '../services/surfspots'
+
+const newSpot = async (spot) => {
+  try {
+    const data = await surfspotService.create(spot)
+    return {
+      name: data.name,
+      continent: data.continent,
+      country: data.country,
+      region: data.region,
+      id: data.id,
+      isSecret: data.isSecret,
+    }
+  } catch (error) {
+    return {
+      error: error.response.data.error,
+    }
+  }
+}
+
 const checkValidityName = (name) => {
   if (name.length > 2 || !name) return true
   return false
@@ -40,6 +60,7 @@ const dangers = [
 ]
 
 export default {
+  newSpot,
   checkValidityName,
   latitudeIsValid,
   longitudeIsValid,

@@ -107,10 +107,12 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
 
   const handleProfile = () => {
     history.push(`/profile/${user.id}`)
+    handleMenuClose()
   }
 
   const handleAddSpot = () => {
     history.push('/addspot')
+    handleMenuClose()
   }
 
   const menuId = 'primary-search-account-menu'
