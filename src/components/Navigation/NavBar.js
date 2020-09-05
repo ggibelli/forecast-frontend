@@ -115,6 +115,11 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
     handleMenuClose()
   }
 
+  const handleStarredSpots = () => {
+    history.push('/starred')
+    handleMenuClose()
+  }
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -132,7 +137,7 @@ export default function PrimarySearchAppBar({ NavClass, handleDrawerToggle }) {
         </ListItemIcon>
         <ListItemText primary="Profile" />
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleStarredSpots}>
         <ListItemIcon>
           <StarIcon fontSize="small" />
         </ListItemIcon>

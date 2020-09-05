@@ -8,6 +8,7 @@ import RegistrationForm from '../RegistrationForm'
 import Map from '../Map'
 import UserProfile from '../UserProfile'
 import AddSpot from '../AddSpot'
+import StarredSpots from '../StarredSpots'
 
 const Routes = () => (
   <Switch>
@@ -16,6 +17,7 @@ const Routes = () => (
     <Route path="/signup" component={RegistrationForm} />
     <Route path="/profile/:id" component={UserProfile} />
     <Route path="/addspot" component={AddSpot} />
+    <Route path="/starred" component={StarredSpots} />
     <Route path={['/:area/:id', '/']} component={Map} />
   </Switch>
 )

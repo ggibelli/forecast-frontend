@@ -34,6 +34,19 @@ export default function SimpleBreadcrumbs() {
     )
   }
 
+  if (urlLocation[1] === 'profile') {
+    return (
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link color="inherit" component={RouterLink} to="/">
+          Home
+        </Link>
+        <Typography color="textPrimary">
+          {urlLocation[1].charAt(0).toUpperCase() + urlLocation[1].slice(1)}
+        </Typography>
+      </Breadcrumbs>
+    )
+  }
+
   if (continent && breadcrumbActive) {
     return (
       <Breadcrumbs aria-label="breadcrumb">
