@@ -103,7 +103,7 @@ const UserProfile = () => {
           Spots created by me
           
         </Typography>
-              <TableSpotProfile />
+              <TableSpotProfile data={profile} />
             </Grid>
           </Grid>
         </form>
