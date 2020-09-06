@@ -23,19 +23,15 @@ export const initializeSpots = () => async (dispatch) => {
   })
 }
 
-export const createSurfspotMenu = (data) => async (dispatch) => {
-  dispatch({
-    type: 'NEW_SPOT_NESTED',
-    data,
-  })
-}
+export const createSurfspotMenu = (data) => ({
+  type: 'NEW_SPOT_NESTED',
+  data,
+})
 
-export const updateSurfspotMenu = (data) => async (dispatch) => {
-  dispatch({
-    type: 'UPDATE_SPOT_NESTED',
-    data,
-  })
-}
+export const updateSurfspotMenu = (data) => ({
+  type: 'UPDATE_SPOT_NESTED',
+  data,
+})
 
 const insertSpot = (array, action) => {
   const newArray = array.slice()
@@ -72,7 +68,6 @@ const removeSpot = (array, action) => {
     regionIndex
   ].surfSpots.splice(spotIndex, 1)
 
-  console.log(newArray)
   return newArray
 }
 

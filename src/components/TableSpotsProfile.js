@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { lighten, makeStyles } from '@material-ui/core/styles'
@@ -14,6 +14,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
+import Popover from '@material-ui/core/Popover'
 import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -23,6 +24,7 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 import { updateSurfspot } from '../reducers/allSpotsSearch'
 import { updateSurfspotMenu } from '../reducers/nestedSurfspots'
 import formHelper from '../utils/formHelper'
+import FilterCreatedSpots from './FilterCreatedSpots'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -149,6 +151,17 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles()
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? 'simple-popover' : undefined
   const { numSelected } = props
 
   return (
@@ -184,11 +197,29 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip title="Filter list">
+            <IconButton onClick={handleClick} aria-label="filter list">
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <FilterCreatedSpots />
+          </Popover>
+        </>
       )}
     </Toolbar>
   )
@@ -222,8 +253,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function EnhancedTable({ data }) {
+export default function EnhancedTable() {
+  const data = useSelector(state => state.userProfile)
+  const filter = useSelector(state => state.filter)
+  console.log(filter)
   const { id } = data
+
   const rows = data.createdSpots.map((spot) => ({
     name: spot.name,
     id: spot.id,

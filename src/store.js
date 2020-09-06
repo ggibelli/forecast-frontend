@@ -10,6 +10,7 @@ import spotSearchReducer from './reducers/allSpotsSearch'
 import forecastReducer from './reducers/forecastSpot'
 import mapsReducer from './reducers/maps'
 import userReducer from './reducers/userDetail'
+import filterReducer from './reducers/filterCreatedSpots'
 
 const reducer = combineReducers({
   surfspots: surfspotsReducer,
@@ -20,6 +21,7 @@ const reducer = combineReducers({
   forecastSpot: forecastReducer,
   mapToShow: mapsReducer,
   userProfile: userReducer,
+  filter: filterReducer,
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))

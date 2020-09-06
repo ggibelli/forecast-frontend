@@ -7,7 +7,9 @@ const reducer = (state = [], action) => {
     case 'NEW_SPOT_SEARCH':
       return action.data.isSecret ? [...state] : [...state, action.data]
     case 'UPDATE_SPOT_SEARCH':
-      return action.data.isSecret ? state.filter(spot => spot.id !== action.data.id) : [...state, action.data]
+      return action.data.isSecret
+        ? state.filter((spot) => spot.id !== action.data.id)
+        : [...state, action.data]
     default:
       return state
   }
@@ -21,18 +23,14 @@ export const initializeSearch = () => async (dispatch) => {
   })
 }
 
-export const createSurfspot = (data) => async (dispatch) => {
-  dispatch({
-    type: 'NEW_SPOT_SEARCH',
-    data,
-  })
-}
+export const createSurfspot = (data) => ({
+  type: 'NEW_SPOT_SEARCH',
+  data,
+})
 
-export const updateSurfspot = (data) => async (dispatch) => {
-  dispatch({
-    type: 'UPDATE_SPOT_SEARCH',
-    data,
-  })
-}
+export const updateSurfspot = (data) => ({
+  type: 'UPDATE_SPOT_SEARCH',
+  data,
+})
 
 export default reducer

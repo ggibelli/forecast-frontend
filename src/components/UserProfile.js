@@ -99,11 +99,10 @@ const UserProfile = () => {
               />
             </Grid>
             <Grid item xs={12}>
-            <Typography component="h1" variant="h6">
-          Spots created by me
-          
-        </Typography>
-              <TableSpotProfile data={profile} />
+              <Typography component="h1" variant="h6">
+                Spots created by me
+              </Typography>
+              <TableSpotProfile />
             </Grid>
           </Grid>
         </form>
