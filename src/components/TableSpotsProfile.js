@@ -14,17 +14,14 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import Popover from '@material-ui/core/Popover'
 import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Switch from '@material-ui/core/Switch'
 import DeleteIcon from '@material-ui/icons/Delete'
-import FilterListIcon from '@material-ui/icons/FilterList'
 import { updateSurfspot } from '../reducers/allSpotsSearch'
 import { updateSurfspotMenu } from '../reducers/nestedSurfspots'
 import formHelper from '../utils/formHelper'
-import FilterCreatedSpots from './FilterCreatedSpots'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -151,18 +148,20 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles()
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
+  const { numSelected, ids } = props
+  const recursiveDelete = (arrayIds) => {
+    while (arrayIds.length > 0) {
+      console.log(arrayIds[arrayIds.length - 1])
+      arrayIds.pop()
+      recursiveDelete(arrayIds)
+    }
   }
+  const handleDelete = () => {
+    // call delete recursively until my id array's length is 0
 
-  const handleClose = () => {
-    setAnchorEl(null)
+    console.log(ids)
   }
-
-  const open = Boolean(anchorEl)
-  const id = open ? 'simple-popover' : undefined
-  const { numSelected } = props
+  console.log(ids)
 
   return (
     <Toolbar
@@ -192,35 +191,11 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton aria-label="delete" onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      ) : (
-        <>
-          <Tooltip title="Filter list">
-            <IconButton onClick={handleClick} aria-label="filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            <FilterCreatedSpots />
-          </Popover>
-        </>
-      )}
+      ) : null}
     </Toolbar>
   )
 }
@@ -254,16 +229,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function EnhancedTable() {
-  const data = useSelector(state => state.userProfile)
-  const filter = useSelector(state => state.filter)
-  console.log(filter)
+  const data = useSelector((state) => state.userProfile)
   const { id } = data
 
-  const rows = data.createdSpots.map((spot) => ({
-    name: spot.name,
-    id: spot.id,
-    country: spot.country.name,
-    isSecret: spot.isSecret,
+  const rows = data.createdSpots.map((s) => ({
+    name: s.name,
+    id: s.id,
+    country: s.country.name,
+    isSecret: s.isSecret,
   }))
   const dispatch = useDispatch()
   const classes = useStyles()
@@ -281,7 +254,7 @@ export default function EnhancedTable() {
 
   const handleSecretSpot = async (event, property) => {
     event.stopPropagation()
-    const spot = data.createdSpots.find((spot) => spot.id === property.id)
+    const spot = data.createdSpots.find((s) => s.id === property.id)
     const modifiedSpot = {
       ...spot,
       country: spot.country.id,
@@ -298,7 +271,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name)
+      const newSelecteds = rows.map((n) => n.id)
       console.log(rows.map((r) => r.id))
       setSelected(newSelecteds)
       return
@@ -306,12 +279,12 @@ export default function EnhancedTable() {
     setSelected([])
   }
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name)
+  const handleClick = (event, el) => {
+    const selectedIndex = selected.indexOf(el)
     let newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
+      newSelected = newSelected.concat(selected, el)
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
@@ -335,7 +308,7 @@ export default function EnhancedTable() {
     setPage(0)
   }
 
-  const isSelected = (name) => selected.indexOf(name) !== -1
+  const isSelected = (el) => selected.indexOf(el) !== -1
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
@@ -343,7 +316,7 @@ export default function EnhancedTable() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar ids={selected} numSelected={selected.length} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -364,17 +337,17 @@ export default function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name)
+                  const isItemSelected = isSelected(row.id)
                   const labelId = `enhanced-table-checkbox-${index}`
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">

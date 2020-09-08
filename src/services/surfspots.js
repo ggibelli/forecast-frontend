@@ -31,9 +31,15 @@ const update = async (newObject) => {
 }
 
 const remove = async (id) => {
-  const response = await axios.delete(`${baseUrl}/surfspots/${id}`, setConfig())
+  const response = await axios.delete(`${baseUrl}/surfspots/delete/${id}`, setConfig())
   return response.data
 }
+
+/*
+const removeMultiple = async (ids) => {
+  const response = await axios.delete(`${baseUrl}/surfspots/delete/`, setConfig())
+  return response.data
+}*/
 
 const getAllForSearch = async () => {
   const response = await axios.get(`${baseUrl}/surfspots`)
