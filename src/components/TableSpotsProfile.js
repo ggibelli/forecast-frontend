@@ -19,8 +19,13 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Switch from '@material-ui/core/Switch'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { updateSurfspot } from '../reducers/allSpotsSearch'
-import { updateSurfspotMenu } from '../reducers/nestedSurfspots'
+import { updateSurfspot, removeSurfspot } from '../reducers/allSpotsSearch'
+import {
+  updateSurfspotMenu,
+  removeSurfspotMenu,
+} from '../reducers/nestedSurfspots'
+import { removeCreated } from '../reducers/userDetail'
+import { setNotification } from '../reducers/notification'
 import formHelper from '../utils/formHelper'
 
 function descendingComparator(a, b, orderBy) {
@@ -147,19 +152,40 @@ const useToolbarStyles = makeStyles((theme) => ({
 }))
 
 const EnhancedTableToolbar = (props) => {
+  const dispatch = useDispatch()
+
   const classes = useToolbarStyles()
-  const { numSelected, ids } = props
-  const recursiveDelete = (arrayIds) => {
-    while (arrayIds.length > 0) {
-      console.log(arrayIds[arrayIds.length - 1])
-      arrayIds.pop()
-      recursiveDelete(arrayIds)
+  const { numSelected, ids, spots } = props
+  const removeMultiple = async (arrayIds) => {
+    const arrayCopy = [...arrayIds]
+    const errorsRemove = []
+    const removedIds = arrayIds.filter((id) => !errorsRemove.includes(id))
+    await recursiveDelete(arrayCopy, errorsRemove)
+    return { removedIds, errorsRemove }
+    async function recursiveDelete(array, errors) {
+      if (array.length > 0) {
+        const id = array.pop()
+        const removedSpot = await formHelper.deleteSpot(id)
+        if (removedSpot.error) errors.push(id)
+        return recursiveDelete(array)
+      }
+      return errors
     }
   }
-  const handleDelete = () => {
+  const handleDelete = async () => {
     // call delete recursively until my id array's length is 0
 
-    console.log(ids)
+    const removedSpot = await removeMultiple(ids)
+    if (removedSpot.errorsRemove.length > 0)
+      console.log(removedSpot.errorsRemove)
+    else
+      removedSpot.removedIds.forEach((id) => {
+        console.log('dispatch')
+        const spot = spots.find((s) => s.id === id)
+        dispatch(removeSurfspotMenu(spot))
+        dispatch(removeCreated(id))
+        dispatch(removeSurfspot(id))
+      })
   }
   console.log(ids)
 
@@ -230,8 +256,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnhancedTable() {
   const data = useSelector((state) => state.userProfile)
-  const { id } = data
-
+  const { id, createdSpots } = data
   const rows = data.createdSpots.map((s) => ({
     name: s.name,
     id: s.id,
@@ -239,6 +264,7 @@ export default function EnhancedTable() {
     isSecret: s.isSecret,
   }))
   const dispatch = useDispatch()
+
   const classes = useStyles()
   const [order, setOrder] = React.useState('asc')
   const [orderBy, setOrderBy] = React.useState('name')
@@ -262,7 +288,6 @@ export default function EnhancedTable() {
       isSecret: event.target.checked,
     }
     const updatedModified = await formHelper.updateSpot(modifiedSpot)
-    console.log(updatedModified)
     if (!updatedModified.error) {
       dispatch(updateSurfspot(updatedModified))
       dispatch(updateSurfspotMenu(updatedModified))
@@ -272,7 +297,6 @@ export default function EnhancedTable() {
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.id)
-      console.log(rows.map((r) => r.id))
       setSelected(newSelecteds)
       return
     }
@@ -316,7 +340,11 @@ export default function EnhancedTable() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar ids={selected} numSelected={selected.length} />
+        <EnhancedTableToolbar
+          spots={createdSpots}
+          ids={selected}
+          numSelected={selected.length}
+        />
         <TableContainer>
           <Table
             className={classes.table}

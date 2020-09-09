@@ -1,6 +1,8 @@
 import surfspotService from '../services/surfspots'
+import { removeSurfspot } from './allSpotsSearch'
 
 const reducer = (state = [], action) => {
+  console.log(action)
   switch (action.type) {
     case 'INIT':
       return action.data
@@ -10,6 +12,8 @@ const reducer = (state = [], action) => {
       return action.data.isSecret
         ? removeSpot(state, action)
         : insertSpot(state, action)
+    case 'REMOVE_SPOT_NESTED':
+      return removeSpot(state, action)
     default:
       return state
   }
@@ -30,6 +34,11 @@ export const createSurfspotMenu = (data) => ({
 
 export const updateSurfspotMenu = (data) => ({
   type: 'UPDATE_SPOT_NESTED',
+  data,
+})
+
+export const removeSurfspotMenu = (data) => ({
+  type: 'REMOVE_SPOT_NESTED',
   data,
 })
 

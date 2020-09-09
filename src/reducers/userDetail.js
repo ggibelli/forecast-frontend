@@ -11,6 +11,11 @@ const reducer = (state = null, action) => {
         ...state,
         starredSpots: action.data,
       }
+    case 'REMOVE_CREATED':
+      return {
+        ...state,
+        createdSpots: state.createdSpots.filter((spot) => spot.id !== action.data),
+      }
     default:
       return state
   }
@@ -41,5 +46,10 @@ export const removeStarSpot = (id, spot) => async (dispatch) => {
     data: starredSpots.map((starred) => starred.id),
   })
 }
+
+export const removeCreated = (data) => ({
+  type: 'REMOVE_CREATED',
+  data,
+})
 
 export default reducer

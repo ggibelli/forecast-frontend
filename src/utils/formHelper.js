@@ -36,6 +36,17 @@ const updateSpot = async (spot) => {
   }
 }
 
+const deleteSpot = async (id) => {
+  try {
+    const success = await surfspotService.remove(id)
+    return success
+  } catch (error) {
+    return {
+      error: error.response.data.error,
+    }
+  }
+}
+
 const checkValidityName = (name) => {
   if (name.length > 2 || !name) return true
   return false
@@ -80,6 +91,7 @@ const dangers = [
 export default {
   newSpot,
   updateSpot,
+  deleteSpot,
   checkValidityName,
   latitudeIsValid,
   longitudeIsValid,

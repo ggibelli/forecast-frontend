@@ -10,6 +10,8 @@ const reducer = (state = [], action) => {
       return action.data.isSecret
         ? state.filter((spot) => spot.id !== action.data.id)
         : [...state, action.data]
+    case 'REMOVE_SPOT_SEARCH':
+      return state.filter((spot) => spot.id !== action.data)
     default:
       return state
   }
@@ -30,6 +32,11 @@ export const createSurfspot = (data) => ({
 
 export const updateSurfspot = (data) => ({
   type: 'UPDATE_SPOT_SEARCH',
+  data,
+})
+
+export const removeSurfspot = (data) => ({
+  type: 'REMOVE_SPOT_SEARCH',
   data,
 })
 
