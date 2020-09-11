@@ -7,6 +7,8 @@ import StarIcon from '@material-ui/icons/Star'
 import { addStarSpot, removeStarSpot, getProfile } from '../reducers/userDetail'
 import { setNotification } from '../reducers/notification'
 
+
+// i need to add the full spot and not only the id to make it work again.. that's why i need test
 const Starred = ({ spotId }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.currentUser)
@@ -16,10 +18,12 @@ const Starred = ({ spotId }) => {
     if (profile) return
     if (id) dispatch(getProfile(id))
   }, [])
-
+  console.log(spotId)
   const starredSpot = profile
-    ? profile.starredSpots.find((spot) => spot === spotId)
+    ? profile.starredSpots.find((spot) => spot.id === spotId)
     : null
+    console.log(starredSpot)
+
   const icon = starredSpot ? <StarIcon /> : <StarBorderIcon />
   const handleClick = () => {
     if (profile) {

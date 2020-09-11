@@ -28,7 +28,7 @@ const SpotDetail = () => {
   }, [forecastId, dispatch])
   useEffect(() => {
     if (errorMessage) dispatch(setNotification(errorMessage, 'error'))
-  })
+  }, [dispatch, errorMessage])
   const tileImage = forecastId ? surfSpot.data.tile_url : spinner
 
   const forecastNotReady = () =>

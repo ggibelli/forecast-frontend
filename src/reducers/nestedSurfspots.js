@@ -1,8 +1,6 @@
 import surfspotService from '../services/surfspots'
-import { removeSurfspot } from './allSpotsSearch'
 
 const reducer = (state = [], action) => {
-  console.log(action)
   switch (action.type) {
     case 'INIT':
       return action.data

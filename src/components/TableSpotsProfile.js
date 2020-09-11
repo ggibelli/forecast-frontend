@@ -19,6 +19,9 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Switch from '@material-ui/core/Switch'
 import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
+import Link from '@material-ui/core/Link'
+import { Link as RouterLink } from 'react-router-dom'
 import { updateSurfspot, removeSurfspot } from '../reducers/allSpotsSearch'
 import {
   updateSurfspotMenu,
@@ -67,6 +70,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: 'Secret Spot',
+  },
+  {
+    id: 'edit',
+    numeric: false,
+    disablePadding: false,
+    label: 'Edit spot',
   },
 ]
 
@@ -278,6 +287,10 @@ export default function EnhancedTable() {
     setOrderBy(property)
   }
 
+  const handleEdit = (event, property) => {
+    event.stopPropagation()
+  }
+
   const handleSecretSpot = async (event, property) => {
     event.stopPropagation()
     const spot = data.createdSpots.find((s) => s.id === property.id)
@@ -390,7 +403,13 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        <Link
+                          color="inherit"
+                          component={RouterLink}
+                          to={`/surfspots/${row.id}`}
+                        >
+                          {row.name}
+                        </Link>
                       </TableCell>
                       <TableCell align="left">{row.country}</TableCell>
                       <TableCell align="left">
@@ -399,6 +418,11 @@ export default function EnhancedTable() {
                           name="isSecret"
                           onClick={(event) => handleSecretSpot(event, row)}
                         />
+                      </TableCell>
+                      <TableCell align="left">
+                        <IconButton onClick={(event) => handleEdit(event, row.id)} aria-label="edit">
+                          <EditIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   )
