@@ -25,7 +25,7 @@ const TideChart = ({ day }) => {
     ? tidesForTheDay.map((tide) => tide.type)
     : null
 
-    const dataPeriod = {
+  const dataPeriod = {
     labels: tideLabels,
     datasets: [
       {

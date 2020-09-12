@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
@@ -132,8 +132,6 @@ export default function EnhancedTable() {
     country: s.country,
     region: s.region,
   }))
-  const dispatch = useDispatch()
-  console.log(rows)
   const classes = useStyles()
   const [order, setOrder] = React.useState('asc')
   const [orderBy, setOrderBy] = React.useState('name')
@@ -189,24 +187,39 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="default"
                       >
-                        <Link color="inherit" component={RouterLink} to={`/surfspots/${row.id}`}>
-                        {row.name}
+                        <Link
+                          color="inherit"
+                          component={RouterLink}
+                          to={`/surfspots/${row.id}`}
+                        >
+                          {row.name}
                         </Link>
                       </TableCell>
                       <TableCell align="left">
-                        <Link color="inherit" component={RouterLink} to={`/continents/${row.continent.id}`}>
-                        {row.continent.name}
-                        </Link>
-                        
-                      </TableCell>
-                      <TableCell align="left">
-                      <Link color="inherit" component={RouterLink} to={`/countries/${row.country.id}`}>
-                        {row.country.name}
+                        <Link
+                          color="inherit"
+                          component={RouterLink}
+                          to={`/continents/${row.continent.id}`}
+                        >
+                          {row.continent.name}
                         </Link>
                       </TableCell>
                       <TableCell align="left">
-                      <Link color="inherit" component={RouterLink} to={`/regions/${row.region.id}`}>
-                        {row.region.name}
+                        <Link
+                          color="inherit"
+                          component={RouterLink}
+                          to={`/countries/${row.country.id}`}
+                        >
+                          {row.country.name}
+                        </Link>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Link
+                          color="inherit"
+                          component={RouterLink}
+                          to={`/regions/${row.region.id}`}
+                        >
+                          {row.region.name}
                         </Link>
                       </TableCell>
                     </TableRow>

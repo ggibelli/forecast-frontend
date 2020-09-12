@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
 import Radio from '@material-ui/core/Radio'
@@ -23,5 +24,11 @@ const SimpleRadioField = ({ state, legend, name, options }) => (
   </>
 )
 
-export default SimpleRadioField
+SimpleRadioField.propTypes = {
+  state: PropTypes.object.isRequired,
+  legend: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+}
 
+export default SimpleRadioField

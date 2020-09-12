@@ -22,6 +22,7 @@ const create = async (newObject) => {
 }
 
 const update = async (newObject) => {
+  console.log(newObject)
   const response = await axios.put(
     `${baseUrl}/surfspots/${newObject.id}`,
     newObject,

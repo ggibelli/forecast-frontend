@@ -13,7 +13,7 @@ import HeightChart from './HeightChart'
 import WeatherTable from './WeatherTable'
 
 const ForecastChart = () => {
-  const forecastState = useSelector((state) => state.forecastSpot)
+  const { data } = useSelector((state) => state.forecastSpot)
   const [showChart, setShowChart] = useState('waveHeight')
   const dateNow = new Date(Date.now())
   const today = dateNow.toISOString().split('T')[0]
@@ -22,9 +22,12 @@ const ForecastChart = () => {
   // I set the number of the day splitting the date (pos0 year, pos1 month, pos2 day)
   const [day, setDay] = useState(todayState)
   const [year, month] = splittedDate
-  const dayForForecast = day < 10 ? `${year}-${month}-0${day}` : `${year}-${month}-${day}`
-  const { data } = forecastState
+  const dayForForecast =
+    day < 10 ? `${year}-${month}-0${day}` : `${year}-${month}-${day}`
   const { forecast } = data
+  const wrongCoordinates = forecast
+    ? forecast.map((el) => el.data.length < 10).every((el) => el === true)
+    : null
   const timeLabelsForecast = forecast
     ? forecast
         .map((hour) => hour.time.split('T')[1].split('+')[0].substring(0, 5))
@@ -60,12 +63,11 @@ const ForecastChart = () => {
     forecastObject,
   }
 
+  if (wrongCoordinates) return <div>The coordinates of this spot are wrong</div>
+
   return (
     <>
-      <Grid
-        justify="space-between" // Add it here :)
-        container
-      >
+      <Grid justify="space-between" container>
         <IconButton onClick={handleClickPrevDay} aria-label="previous">
           <NavigateBeforeIcon />
         </IconButton>

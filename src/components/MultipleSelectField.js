@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -35,5 +36,13 @@ const MultipleSelectField = ({ state, id, labelId, label, options }) => (
     </Select>
   </FormControl>
 )
+
+MultipleSelectField.propTypes = {
+  state: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
+  labelId: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+}
 
 export default MultipleSelectField

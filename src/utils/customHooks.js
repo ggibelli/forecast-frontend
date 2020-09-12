@@ -1,9 +1,7 @@
 import { useState } from 'react'
 
-const dummyFunc = () => true
-
-const useField = (isValid = dummyFunc) => {
-  const [value, setValue] = useState('')
+const useField = (isValid, defaultValue = '') => {
+  const [value, setValue] = useState(defaultValue)
   const onChange = (event) => {
     setValue(event.target.value)
   }
@@ -15,8 +13,8 @@ const useField = (isValid = dummyFunc) => {
   }
 }
 
-const useFieldNoError = () => {
-  const [value, setValue] = useState('')
+const useFieldNoError = (defaultValue = '') => {
+  const [value, setValue] = useState(defaultValue)
   const onChange = (event) => {
     setValue(event.target.value)
   }
@@ -26,8 +24,8 @@ const useFieldNoError = () => {
   }
 }
 
-const useCheckField = () => {
-  const [checked, setChecked] = useState(false)
+const useCheckField = (defaultValue = false) => {
+  const [checked, setChecked] = useState(defaultValue)
   const onChange = () => {
     setChecked(!checked)
   }
@@ -37,8 +35,12 @@ const useCheckField = () => {
   }
 }
 
-const useMultipleSelect = () => {
-  const [value, setValue] = useState([])
+const useMultipleSelect = (defaultValue = []) => {
+  const defaultArray = []
+  if (defaultValue.length > 0) {
+    defaultValue.split(',').map((el) => defaultArray.push(el.trim()))
+  }
+  const [value, setValue] = useState(defaultArray)
   const onChange = (event) => {
     setValue(event.target.value)
   }

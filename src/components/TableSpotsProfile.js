@@ -21,7 +21,7 @@ import Switch from '@material-ui/core/Switch'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import Link from '@material-ui/core/Link'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useHistory } from 'react-router-dom'
 import { updateSurfspot, removeSurfspot } from '../reducers/allSpotsSearch'
 import {
   updateSurfspotMenu,
@@ -69,13 +69,13 @@ const headCells = [
     id: 'is-secret',
     numeric: false,
     disablePadding: false,
-    label: 'Secret Spot',
+    label: 'Secret',
   },
   {
     id: 'edit',
     numeric: false,
     disablePadding: false,
-    label: 'Edit spot',
+    label: 'Edit',
   },
 ]
 
@@ -164,12 +164,12 @@ const EnhancedTableToolbar = (props) => {
   const dispatch = useDispatch()
 
   const classes = useToolbarStyles()
-  const { numSelected, ids, spots } = props
-  const removeMultiple = async (arrayIds) => {
+  const { numSelected, ids, spots, setSelected } = props
+  const removeMultiple = (arrayIds) => {
     const arrayCopy = [...arrayIds]
     const errorsRemove = []
     const removedIds = arrayIds.filter((id) => !errorsRemove.includes(id))
-    await recursiveDelete(arrayCopy, errorsRemove)
+    recursiveDelete(arrayCopy, errorsRemove)
     return { removedIds, errorsRemove }
     async function recursiveDelete(array, errors) {
       if (array.length > 0) {
@@ -181,22 +181,20 @@ const EnhancedTableToolbar = (props) => {
       return errors
     }
   }
-  const handleDelete = async () => {
-    // call delete recursively until my id array's length is 0
-
-    const removedSpot = await removeMultiple(ids)
+  const handleDelete = () => {
+    const removedSpot = removeMultiple(ids)
     if (removedSpot.errorsRemove.length > 0)
-      console.log(removedSpot.errorsRemove)
+      dispatch(setNotification('Something went wrong...', 'error'))
     else
       removedSpot.removedIds.forEach((id) => {
-        console.log('dispatch')
         const spot = spots.find((s) => s.id === id)
         dispatch(removeSurfspotMenu(spot))
         dispatch(removeCreated(id))
         dispatch(removeSurfspot(id))
+        dispatch(setNotification('Surfspots deleted correctly'))
       })
+    setSelected([])
   }
-  console.log(ids)
 
   return (
     <Toolbar
@@ -237,6 +235,9 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  ids: PropTypes.array.isRequired,
+  spots: PropTypes.array.isRequired,
+  setSelected: PropTypes.func.isRequired,
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -264,6 +265,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function EnhancedTable() {
+  const history = useHistory()
   const data = useSelector((state) => state.userProfile)
   const { id, createdSpots } = data
   const rows = data.createdSpots.map((s) => ({
@@ -289,6 +291,7 @@ export default function EnhancedTable() {
 
   const handleEdit = (event, property) => {
     event.stopPropagation()
+    history.push(`/edit/${property}`)
   }
 
   const handleSecretSpot = async (event, property) => {
@@ -296,7 +299,9 @@ export default function EnhancedTable() {
     const spot = data.createdSpots.find((s) => s.id === property.id)
     const modifiedSpot = {
       ...spot,
+      continent: spot.continent.id,
       country: spot.country.id,
+      region: spot.region.id,
       user: id,
       isSecret: event.target.checked,
     }
@@ -304,6 +309,7 @@ export default function EnhancedTable() {
     if (!updatedModified.error) {
       dispatch(updateSurfspot(updatedModified))
       dispatch(updateSurfspotMenu(updatedModified))
+      // eslint-disable-next-line no-param-reassign
     } else event.target.checked = !event.target.checked
   }
 
@@ -357,6 +363,7 @@ export default function EnhancedTable() {
           spots={createdSpots}
           ids={selected}
           numSelected={selected.length}
+          setSelected={setSelected}
         />
         <TableContainer>
           <Table
@@ -420,7 +427,10 @@ export default function EnhancedTable() {
                         />
                       </TableCell>
                       <TableCell align="left">
-                        <IconButton onClick={(event) => handleEdit(event, row.id)} aria-label="edit">
+                        <IconButton
+                          onClick={(event) => handleEdit(event, row.id)}
+                          aria-label="edit"
+                        >
                           <EditIcon />
                         </IconButton>
                       </TableCell>

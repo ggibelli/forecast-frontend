@@ -26,13 +26,13 @@ const useStyles = makeStyles((theme) => ({
 const StarredSpots = () => {
   const classes = useStyles()
   const user = useSelector((state) => state.currentUser)
+  const profile = useSelector((state) => state.userProfile)
   const dispatch = useDispatch()
   useEffect(() => {
-    if (user) dispatch(getProfile(user.id))
-  }, [dispatch, user])
-  const profile = useSelector((state) => state.userProfile)
+    if (user && !profile) dispatch(getProfile(user.id))
+  }, [dispatch, user, profile])
+
   if (!profile) return null
-  console.log(profile.starredSpots)
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />

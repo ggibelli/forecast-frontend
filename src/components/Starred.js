@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import Button from '@material-ui/core/Button'
@@ -7,22 +7,25 @@ import StarIcon from '@material-ui/icons/Star'
 import { addStarSpot, removeStarSpot, getProfile } from '../reducers/userDetail'
 import { setNotification } from '../reducers/notification'
 
-
 // i need to add the full spot and not only the id to make it work again.. that's why i need test
 const Starred = ({ spotId }) => {
+  const [isMounted, setIsMounted] = useState(false)
   const dispatch = useDispatch()
   const user = useSelector((state) => state.currentUser)
   const profile = useSelector((state) => state.userProfile)
   const id = user ? user.id : null
   useEffect(() => {
-    if (profile) return
-    if (id) dispatch(getProfile(id))
+    if (id && !profile && isMounted) {
+      dispatch(getProfile(id))
+    }
+  }, [isMounted, id, dispatch, profile])
+
+  useEffect(() => {
+    setIsMounted(true)
   }, [])
-  console.log(spotId)
   const starredSpot = profile
     ? profile.starredSpots.find((spot) => spot.id === spotId)
     : null
-    console.log(starredSpot)
 
   const icon = starredSpot ? <StarIcon /> : <StarBorderIcon />
   const handleClick = () => {

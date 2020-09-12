@@ -1,7 +1,6 @@
 import userService from '../services/users'
 
 const reducer = (state = null, action) => {
-  console.log(action)
   switch (action.type) {
     case 'PROFILE':
       return action.data

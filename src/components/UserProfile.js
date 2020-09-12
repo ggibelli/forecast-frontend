@@ -32,10 +32,10 @@ const UserProfile = () => {
   const classes = useStyles()
   const { id } = useParams()
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getProfile(id))
-  }, [dispatch, id])
   const profile = useSelector((state) => state.userProfile)
+  useEffect(() => {
+    if (id) dispatch(getProfile(id))
+  }, [dispatch, id])
   if (!profile) return null
   return (
     <Container component="main" maxWidth="sm">
