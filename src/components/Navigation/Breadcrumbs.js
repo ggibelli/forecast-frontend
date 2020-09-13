@@ -53,21 +53,21 @@ export default function SimpleBreadcrumbs() {
         <Link
           color="inherit"
           component={RouterLink}
-          to={`/continents/${continent.id}`}
+          to={`/map/continents/${continent.id}`}
         >
           {continent.name}
         </Link>
         <Link
           color="inherit"
           component={RouterLink}
-          to={`/countries/${country.id}`}
+          to={`/map/countries/${country.id}`}
         >
           {country.name}
         </Link>
         <Link
           color="inherit"
           component={RouterLink}
-          to={`/regions/${region.id}`}
+          to={`/map/regions/${region.id}`}
         >
           {region.name}
         </Link>
@@ -90,7 +90,7 @@ export default function SimpleBreadcrumbs() {
         <Link
           color="inherit"
           component={RouterLink}
-          to={`/continents/${mapLocationBreadcrumbs.continent.id}`}
+          to={`/map/continents/${mapLocationBreadcrumbs.continent.id}`}
         >
           {mapLocationBreadcrumbs.continent.name}
         </Link>
@@ -106,14 +106,14 @@ export default function SimpleBreadcrumbs() {
         <Link
           color="inherit"
           component={RouterLink}
-          to={`/continents/${mapLocationBreadcrumbs.continent.id}`}
+          to={`/map/continents/${mapLocationBreadcrumbs.continent.id}`}
         >
           {mapLocationBreadcrumbs.continent.name}
         </Link>
         <Link
           color="inherit"
           component={RouterLink}
-          to={`/countries/${mapLocationBreadcrumbs.country.id}`}
+          to={`/map/countries/${mapLocationBreadcrumbs.country.id}`}
         >
           {mapLocationBreadcrumbs.country.name}
         </Link>

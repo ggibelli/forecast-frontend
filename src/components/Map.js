@@ -12,7 +12,7 @@ import distanceHelper from '../utils/findNearestSpot'
 
 // faccio una lista di spot sotto alla mappa
 
-export default function Homepage() {
+export default function MapComponent() {
   const dispatch = useDispatch()
   const surfSpots = useSelector((state) => state.surfspots)
   const { data, isLoading, errorMessage } = useSelector(

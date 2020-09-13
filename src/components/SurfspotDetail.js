@@ -19,6 +19,7 @@ import { removeSurfspot } from '../reducers/allSpotsSearch'
 import { removeSurfspotMenu } from '../reducers/nestedSurfspots'
 import { removeCreated } from '../reducers/userDetail'
 import formHelper from '../utils/formHelper'
+import NotFound from './NotFound'
 
 // aggiungo no spot found!!!!
 const SpotDetail = () => {
@@ -38,6 +39,9 @@ const SpotDetail = () => {
   useEffect(() => {
     if (errorMessage) dispatch(setNotification(errorMessage, 'error'))
   }, [dispatch, errorMessage])
+  useEffect(() => {
+    if (surfSpot.errorMessage) dispatch(setNotification(surfSpot.errorMessage, 'error'))
+  }, [dispatch, surfSpot.errorMessage])
   const tileImage = forecastId ? surfSpot.data.tile_url : spinner
   const spotOwner = userProfile
     ? userProfile.createdSpots.findIndex((spot) => spot.id === surfSpot.data.id)
@@ -65,6 +69,8 @@ const SpotDetail = () => {
     ) : (
       <Skeleton variant="rect" width="100%" height="70vh" />
     )
+
+  if (surfSpot.errorMessage) return <NotFound />
 
   if (!surfSpot.isLoading) {
     return (

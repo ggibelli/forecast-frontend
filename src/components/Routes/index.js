@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch } from 'react-router-dom'
 import Route from './Route'
 
+import HomePage from '../HomePage'
 import SurfSpotDetail from '../SurfspotDetail'
 import LoginForm from '../LoginForm'
 import RegistrationForm from '../RegistrationForm'
@@ -10,6 +11,7 @@ import UserProfile from '../UserProfile'
 import NewSpot from '../NewSpot'
 import EditSpot from '../EditSpot'
 import StarredSpots from '../StarredSpots'
+import NotFound from '../NotFound'
 
 const Routes = () => (
   <Switch>
@@ -20,7 +22,9 @@ const Routes = () => (
     <Route path="/profile/:id" component={UserProfile} />
     <Route path="/edit/:id" component={EditSpot} />
     <Route path="/starred" component={StarredSpots} />
-    <Route path={['/:area/:id', '/']} component={Map} />
+    <Route path="/map/:area/:id" component={Map} />
+    <Route exact path="/" component={HomePage} />
+    <Route component={NotFound} />
   </Switch>
 )
 
