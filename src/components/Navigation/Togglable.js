@@ -14,9 +14,9 @@ const Togglable = React.forwardRef((props, ref) => {
   if (visible)
     return (
       <div>
-          <Button variant="contained" onClick={toggleVisibility}>
-            Hide
-          </Button>
+        <Button variant="contained" onClick={toggleVisibility}>
+          Hide
+        </Button>
 
         {props.children}
       </div>

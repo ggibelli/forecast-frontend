@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -45,8 +45,9 @@ const useStyles = makeStyles((theme) => ({
 
 const FormSpot = ({ spot }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const { surfspots, currentUser } = useSelector((state) => state)
+  const [isSaving, setIsSaving] = React.useState(false)
+  const [redirect, setRedirect] = React.useState(false)
   const name = spot
     ? customHooks.useField(formHelper.checkValidityName, spot.name)
     : customHooks.useField(formHelper.checkValidityName)
@@ -92,26 +93,24 @@ const FormSpot = ({ spot }) => {
   const dangersField = spot
     ? customHooks.useMultipleSelect(spot.dangers)
     : customHooks.useMultipleSelect()
-  const continents = surfspots
-    ? surfspots.map((continent) => ({ name: continent.name, id: continent.id }))
-    : null
+  const continents = surfspots?.map((continent) => ({
+    name: continent.name,
+    id: continent.id,
+  }))
   const countries = surfspots
-    ? surfspots
-        .filter((continent) => continent.id === continentField.value)
-        .map((continent) => continent.countries)
-        .flat()
-    : null
+    ?.filter((continent) => continent.id === continentField.value)
+    .map((continent) => continent.countries)
+    .flat()
   const regions = countries
-    ? countries
-        .filter((country) => country.id === countryField.value)
-        .map((country) => country.regions)
-        .flat()
-    : null
+    ?.filter((country) => country.id === countryField.value)
+    .map((country) => country.regions)
+    .flat()
 
   const enableRegionField = !!(continentField.value && countryField.value)
   const classes = useStyles()
   const handleSubmit = async (event) => {
     event.preventDefault()
+    setIsSaving(true)
     const newSpot = {
       continent: continentField.value,
       country: countryField.value,
@@ -135,6 +134,7 @@ const FormSpot = ({ spot }) => {
       : await formHelper.newSpot(newSpot)
     if (responseSpot.error) {
       dispatch(setNotification(`${responseSpot.error}`, 'error'))
+      setIsSaving(false)
       return
     }
     if (!spot) {
@@ -145,8 +145,10 @@ const FormSpot = ({ spot }) => {
       dispatch(updateSurfspot(responseSpot))
     }
     dispatch(setNotification(spot ? 'Spot edited' : 'New spot added'))
-    history.push('/')
+    setRedirect(true)
   }
+
+  if (redirect) return <Redirect to="/" />
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
@@ -336,6 +338,7 @@ const FormSpot = ({ spot }) => {
         variant="contained"
         color="primary"
         className={classes.submit}
+        disabled={isSaving}
       >
         {spot ? 'Edit spot' : 'Add Spot'}
       </Button>

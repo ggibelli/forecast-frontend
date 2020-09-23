@@ -5,7 +5,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import AddSpot from './FormSpot'
+import FormSpot from './FormSpot'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,7 +32,7 @@ const NewSpot = () => {
         <Typography component="h1" variant="h5">
           Add a new spot
         </Typography>
-        <AddSpot />
+        <FormSpot />
       </div>
     </Container>
   )

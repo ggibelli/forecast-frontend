@@ -13,19 +13,17 @@ const Starred = ({ spotId }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.currentUser)
   const profile = useSelector((state) => state.userProfile)
-  const id = user ? user.id : null
+  const id = user?.id
   useEffect(() => {
-    if (id && !profile && isMounted) {
+    if (id && isMounted) {
       dispatch(getProfile(id))
     }
-  }, [isMounted, id, dispatch, profile])
+  }, [isMounted, id, dispatch])
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
-  const starredSpot = profile
-    ? profile.starredSpots.find((spot) => spot.id === spotId)
-    : null
+  const starredSpot = profile?.starredSpots?.find((spot) => spot.id === spotId)
 
   const icon = starredSpot ? <StarIcon /> : <StarBorderIcon />
   const handleClick = () => {

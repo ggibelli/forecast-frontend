@@ -21,6 +21,8 @@ export default function SimpleBreadcrumbs() {
   const [breadcrumbActive, setBreadcrumbActive] = useState(false)
   const { continent, country, region, name } = locationBreadcrumbs.data
 
+  if (urlLocation[0] === '' && urlLocation[1] === '') return null
+
   if (urlLocation.length === 2) {
     return (
       <Breadcrumbs aria-label="breadcrumb">

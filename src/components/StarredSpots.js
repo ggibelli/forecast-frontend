@@ -29,8 +29,8 @@ const StarredSpots = () => {
   const profile = useSelector((state) => state.userProfile)
   const dispatch = useDispatch()
   useEffect(() => {
-    if (user && !profile) dispatch(getProfile(user.id))
-  }, [dispatch, user, profile])
+    if (user) dispatch(getProfile(user.id))
+  }, [dispatch, user])
 
   if (!profile) return null
   return (

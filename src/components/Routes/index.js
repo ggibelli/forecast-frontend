@@ -1,7 +1,6 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
 import Route from './Route'
-
 import HomePage from '../HomePage'
 import SurfSpotDetail from '../SurfspotDetail'
 import LoginForm from '../LoginForm'

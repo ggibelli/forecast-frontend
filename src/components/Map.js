@@ -10,21 +10,16 @@ import { fetchMap } from '../reducers/maps'
 import { setNotification } from '../reducers/notification'
 import distanceHelper from '../utils/findNearestSpot'
 
-// faccio una lista di spot sotto alla mappa
-
 export default function MapComponent() {
   const dispatch = useDispatch()
   const surfSpots = useSelector((state) => state.surfspots)
   const { data, isLoading, errorMessage } = useSelector(
     (state) => state.mapToShow,
   )
-  const flatSpots = surfSpots
-    ? surfSpots
-        .map((continent) => continent.countries)
+  const flatSpots = surfSpots?.map((continent) => continent.countries)
         .flat()
         .map((country) => country.regions)
         .flat()
-    : null
   let { id, area } = useParams()
   const { latitude, longitude, error } = usePosition()
   if ((!id || !area) && latitude) {

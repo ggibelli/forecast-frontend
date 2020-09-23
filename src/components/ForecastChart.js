@@ -26,24 +26,22 @@ const ForecastChart = () => {
     day < 10 ? `${year}-${month}-0${day}` : `${year}-${month}-${day}`
   const { forecast } = data
   const wrongCoordinates = forecast
-    ? forecast.map((el) => el.data.length < 10).every((el) => el === true)
-    : null
+    ?.map((el) => el.data.length < 10)
+    .every((el) => el === true)
   const timeLabelsForecast = forecast
-    ? forecast
-        .map((hour) => hour.time.split('T')[1].split('+')[0].substring(0, 5))
-        .reduce(
-          (unique, item) =>
-            unique.includes(item) ? unique : [...unique, item],
-          [],
-        )
-    : null
+    ?.map((hour) => hour.time.split('T')[1].split('+')[0].substring(0, 5))
+    .reduce(
+      (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
+      [],
+    )
 
-  const forecastForTheDay =
-    forecast && forecast.filter((hour) => hour.time.includes(dayForForecast))
+  const forecastForTheDay = forecast?.filter((hour) =>
+    hour.time.includes(dayForForecast),
+  )
 
-  const forecastObject = forecastForTheDay
-    ? forecastForTheDay.map((hour) => Object.assign({}, ...hour.data))
-    : null
+  const forecastObject = forecastForTheDay?.map((hour) =>
+    Object.assign({}, ...hour.data),
+  )
 
   const handleClickNextDay = () => {
     if (day + 1 >= todayState + 6) return
@@ -62,6 +60,8 @@ const ForecastChart = () => {
     timeLabelsForecast,
     forecastObject,
   }
+
+  console.log(dataCharts)
 
   if (wrongCoordinates) return <div>The coordinates of this spot are wrong</div>
 

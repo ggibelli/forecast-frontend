@@ -29,7 +29,7 @@ const SpotDetail = () => {
   const userProfile = useSelector((state) => state.userProfile)
   const surfSpot = useSelector((state) => state.spotDetail)
   const { errorMessage, isLoading } = useSelector((state) => state.forecastSpot)
-  const forecastId = surfSpot.data.forecast ? surfSpot.data.forecast.id : null
+  const forecastId = surfSpot?.data?.forecast?.id
   useEffect(() => {
     if (id) dispatch(fetchSpot(id))
   }, [id, dispatch])

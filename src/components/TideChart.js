@@ -8,22 +8,14 @@ const TideChart = ({ day }) => {
 
   const { tides } = forecastState
 
-  const tidesForTheDay = tides
-    ? tides.filter((hour) => hour.time.includes(day))
-    : null
+  const tidesForTheDay = tides?.filter((hour) => hour.time.includes(day))
 
-  const tideLabels = tidesForTheDay
-    ? tidesForTheDay.map((tide) =>
+  const tideLabels = tidesForTheDay?.map((tide) =>
         tide.time.split('T')[1].split('+')[0].substring(0, 5),
       )
-    : null
-  const tideHeights = tidesForTheDay
-    ? tidesForTheDay.map((tide) => tide.height.toFixed(2))
-    : null
+  const tideHeights = tidesForTheDay?.map((tide) => tide.height.toFixed(2))
 
-  const tideType = tidesForTheDay
-    ? tidesForTheDay.map((tide) => tide.type)
-    : null
+  const tideType = tidesForTheDay?.map((tide) => tide.type)
 
   const dataPeriod = {
     labels: tideLabels,
