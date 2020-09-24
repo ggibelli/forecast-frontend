@@ -3,7 +3,7 @@ import surfspotService from '../services/surfspots'
 const reducer = (state = [], action) => {
   switch (action.type) {
     case 'INIT_SEARCH':
-      return action.data
+      return state.concat(action.data)
     case 'NEW_SPOT_SEARCH':
       return action.data.isSecret ? [...state] : [...state, action.data]
     case 'UPDATE_SPOT_SEARCH':

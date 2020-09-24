@@ -1,9 +1,10 @@
+import { cloneDeep } from 'lodash'
 import surfspotService from '../services/surfspots'
 
 const reducer = (state = [], action) => {
   switch (action.type) {
     case 'INIT':
-      return action.data
+      return state.concat(action.data)
     case 'NEW_SPOT_NESTED':
       return action.data.isSecret ? [...state] : insertSpot(state, action)
     case 'UPDATE_SPOT_NESTED':
@@ -41,7 +42,7 @@ export const removeSurfspotMenu = (data) => ({
 })
 
 const insertSpot = (array, action) => {
-  const newArray = array.slice()
+  const newArray = cloneDeep(array)
   const continentIndex = array.findIndex(
     (element) => element.name === action.data.continent.name,
   )
@@ -58,7 +59,7 @@ const insertSpot = (array, action) => {
 }
 
 const removeSpot = (array, action) => {
-  const newArray = array.slice()
+  const newArray = cloneDeep(array)
   const continentIndex = array.findIndex(
     (element) => element.name === action.data.continent.name,
   )
@@ -71,10 +72,10 @@ const removeSpot = (array, action) => {
   const spotIndex = array[continentIndex].countries[countryIndex].regions[
     regionIndex
   ].surfSpots.findIndex((element) => element.id === action.data.id)
+  if (spotIndex === -1) throw new Error('element not found')
   newArray[continentIndex].countries[countryIndex].regions[
     regionIndex
   ].surfSpots.splice(spotIndex, 1)
-
   return newArray
 }
 
