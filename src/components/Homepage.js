@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
-import Togglable from './Navigation/Togglable'
-import Map from './Map'
+import Togglable from './Togglable'
+import MapComponent from './Map'
 
 const HomePage = () => {
   const history = useHistory()
@@ -63,7 +63,7 @@ const HomePage = () => {
         ))}
       </Menu>
       <Togglable buttonLabel="show map" ref={mapRef}>
-        <Map />
+        <MapComponent />
       </Togglable>
     </div>
   )

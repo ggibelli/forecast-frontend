@@ -61,8 +61,6 @@ const ForecastChart = () => {
     forecastObject,
   }
 
-  console.log(dataCharts)
-
   if (wrongCoordinates) return <div>The coordinates of this spot are wrong</div>
 
   return (

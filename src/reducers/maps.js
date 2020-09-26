@@ -1,6 +1,6 @@
 import mapsService from '../services/maps'
 
-const initialState = {
+export const initialState = {
   data: {},
   isLoading: false,
   errorMessage: '',

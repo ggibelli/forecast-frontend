@@ -40,14 +40,19 @@ export default function Grouped() {
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
       }}
-      id="grouped"
+      id="search-spot"
       getOptionLabel={(spot) => spot.name}
       options={options.sort((a, b) => a.region.localeCompare(b.region))}
       getOptionSelected={(opt, val) => opt.name === val.name}
       groupBy={(spot) => spot.region}
       className={classes.search}
       renderInput={(params) => (
-        <TextField {...params} label="surf spot.." variant="filled" />
+        <TextField
+          {...params}
+          data-testid="search-spot"
+          label="surf spot.."
+          variant="filled"
+        />
       )}
     />
   )

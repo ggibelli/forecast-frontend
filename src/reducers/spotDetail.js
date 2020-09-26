@@ -1,6 +1,6 @@
 import surfspotService from '../services/surfspots'
 
-const initialState = {
+export const initialState = {
   data: {},
   isLoading: false,
   errorMessage: '',
