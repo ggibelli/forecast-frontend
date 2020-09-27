@@ -1,8 +1,8 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
-
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
+import { forecast } from '../utils/forecastDataTest'
 
 import ForecastChart from './ForecastChart'
 import forecastReducer from '../reducers/forecastSpot'
@@ -22,8 +22,16 @@ function renderWithProviders(ui, { reduxState } = {}) {
 }
 
 describe('ForecastChart component', () => {
-  test.only('renders with redux defaults', () => {
-    const { getByText, debug } = renderWithProviders(<ForecastChart />, {
+  test('renders with forecast data', () => {
+    const { getByText } = renderWithProviders(<ForecastChart />, {
+      reduxState: forecast,
+    })
+    // date hardcoded because is in my dummy test data
+    getByText(/2020-09-27/i)
+  })
+
+  test('renders with wrong forecast data showing an error', () => {
+    const { getByText } = renderWithProviders(<ForecastChart />, {
       reduxState: {
         forecastSpot: {
           data: {
@@ -54,27 +62,20 @@ describe('ForecastChart component', () => {
         },
       },
     })
-    debug()
+    getByText(/the coordinates of this spot are wrong/i)
   })
 
-  test('renders with spot data', () => {
-    const { getByText } = renderWithProviders(<ForecastChart />, {
-      reduxState: {
-        spotDetail: {
-          data: {
-            name: 'prova',
-            isSecret: true,
-            continent: { name: 'prova', id: '123' },
-            country: { name: 'prova', id: '321' },
-            region: { name: 'prova', id: '678' },
-            latitude: '12',
-            longitude: '12',
-          },
-          isLoading: false,
-          errorMessage: '',
-        },
-      },
+  test('the next and the previous button change the date', () => {
+    const { getAllByRole, getByText } = renderWithProviders(<ForecastChart />, {
+      reduxState: forecast,
     })
-    getByText(/form/i)
+    // date hardcoded because is in my dummy test data
+    getByText(/2020-09-27/i)
+    const nextButtons = getAllByRole('button', { name: /next/i })
+    const previousButtons = getAllByRole('button', { name: /previous/i })
+    fireEvent.click(nextButtons[0])
+    getByText(/2020-09-28/i)
+    fireEvent.click(previousButtons[0])
+    getByText(/2020-09-27/i)
   })
 })

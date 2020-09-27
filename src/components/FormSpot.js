@@ -185,10 +185,8 @@ const FormSpot = ({ spot }) => {
         </Grid>
         <Grid item xs={12}>
           <FormControl className={classes.formControl} fullWidth required>
-            <InputLabel id="uncontrolled-native">Continent</InputLabel>
+            <InputLabel htmlFor="continent">Continent</InputLabel>
             <Select
-              labelId="uncontrolled-native"
-              id="continent"
               native
               {...continentField}
               inputProps={{
@@ -212,7 +210,7 @@ const FormSpot = ({ spot }) => {
             fullWidth
             required
           >
-            <InputLabel htmlFor="uncontrolled-native">Country</InputLabel>
+            <InputLabel htmlFor="country">Country</InputLabel>
             <Select
               native
               {...countryField}
@@ -238,7 +236,7 @@ const FormSpot = ({ spot }) => {
             fullWidth
             required
           >
-            <InputLabel htmlFor="uncontrolled-native">Region</InputLabel>
+            <InputLabel htmlFor="region">Region</InputLabel>
             <Select
               native
               {...regionField}
