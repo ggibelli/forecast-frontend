@@ -16,10 +16,11 @@ export default function MapComponent() {
   const { data, isLoading, errorMessage } = useSelector(
     (state) => state.mapToShow,
   )
-  const flatSpots = surfSpots?.map((continent) => continent.countries)
-        .flat()
-        .map((country) => country.regions)
-        .flat()
+  const flatSpots = surfSpots
+    ?.map((continent) => continent.countries)
+    .flat()
+    .map((country) => country.regions)
+    .flat()
   let { id, area } = useParams()
   const { latitude, longitude, error } = usePosition()
   if ((!id || !area) && latitude) {

@@ -27,7 +27,7 @@ const findClosestRegion = (array) => {
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < arrLength; i++) {
     const value = array[i]
-    min = value < min ? value : min
+    min = value[0] < min[0] ? value : min
   }
   return min
 }

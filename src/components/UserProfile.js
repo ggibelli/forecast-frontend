@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
@@ -34,9 +34,19 @@ const UserProfile = () => {
   const dispatch = useDispatch()
   const profile = useSelector((state) => state.userProfile)
   useEffect(() => {
-    if (id) dispatch(getProfile(id))
+    if (id) {
+      dispatch(getProfile(id))
+    }
   }, [dispatch, id])
-  if (!profile) return null
+  const [prof, setProf] = useState(null)
+  useEffect(() => {
+    if (profile.id) {
+      setProf(profile)
+    }
+  }, [profile])
+  console.log(prof)
+
+  if (!prof) return null
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />
@@ -51,7 +61,7 @@ const UserProfile = () => {
               <TextField
                 name="firstName"
                 variant="outlined"
-                defaultValue={profile.firstName}
+                defaultValue={prof.firstName}
                 fullWidth
                 id="firstName"
                 label="First Name"
@@ -63,7 +73,7 @@ const UserProfile = () => {
               <TextField
                 name="lastName"
                 variant="outlined"
-                defaultValue={profile.lastName}
+                defaultValue={prof.lastName}
                 fullWidth
                 id="lastName"
                 label="Last Name"
@@ -75,7 +85,7 @@ const UserProfile = () => {
               <TextField
                 name="username"
                 variant="outlined"
-                defaultValue={profile.username}
+                defaultValue={prof.username}
                 fullWidth
                 id="username"
                 label="Username"
@@ -87,7 +97,7 @@ const UserProfile = () => {
               <TextField
                 name="email"
                 variant="outlined"
-                defaultValue={profile.email}
+                defaultValue={prof.email}
                 fullWidth
                 id="email"
                 label="Email"
@@ -95,7 +105,7 @@ const UserProfile = () => {
                 disabled
               />
             </Grid>
-            {profile.createdSpots.length > 0 ? (
+            {prof.createdSpots.length > 0 ? (
               <Grid item xs={12}>
                 <TableSpotProfile />
               </Grid>

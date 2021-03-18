@@ -20,16 +20,21 @@ import { removeSurfspotMenu } from '../reducers/nestedSurfspots'
 import { removeCreated } from '../reducers/userDetail'
 import formHelper from '../utils/formHelper'
 import NotFound from './NotFound'
+import { getProfile } from '../reducers/userDetail'
 
 // aggiungo no spot found!!!!
 const SpotDetail = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
+  const user = useSelector((state) => state.currentUser)
   const userProfile = useSelector((state) => state.userProfile)
   const surfSpot = useSelector((state) => state.spotDetail)
   const { errorMessage, isLoading } = useSelector((state) => state.forecastSpot)
   const forecastId = surfSpot?.data?.forecast?.id
+  useEffect(() => {
+    if (user) dispatch(getProfile(user.id))
+  }, [dispatch, user])
   useEffect(() => {
     if (id) dispatch(fetchSpot(id))
   }, [id, dispatch])
@@ -40,7 +45,8 @@ const SpotDetail = () => {
     if (errorMessage) dispatch(setNotification(errorMessage, 'error'))
   }, [dispatch, errorMessage])
   useEffect(() => {
-    if (surfSpot.errorMessage) dispatch(setNotification(surfSpot.errorMessage, 'error'))
+    if (surfSpot.errorMessage)
+      dispatch(setNotification(surfSpot.errorMessage, 'error'))
   }, [dispatch, surfSpot.errorMessage])
   const tileImage = forecastId ? surfSpot.data.tile_url : spinner
   const spotOwner = userProfile
@@ -62,7 +68,6 @@ const SpotDetail = () => {
       dispatch(setNotification(`${deleted.error}`, 'error'))
     }
   }
-
   const forecastNotReady = () =>
     errorMessage ? (
       <div>{errorMessage}</div>
@@ -77,7 +82,7 @@ const SpotDetail = () => {
       <div style={{ marginTop: 6 }}>
         <CssBaseline />
 
-        <Starred spotId={id} />
+        {userProfile.id ? <Starred spotId={id} /> : null}
 
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>

@@ -11,7 +11,6 @@ export default function SimpleBreadcrumbs() {
   const locationBreadcrumbs = useSelector((state) => state.spotDetail)
   const mapLocationBreadcrumbs = useSelector(({ mapToShow }) => mapToShow.data)
   const { pathname } = useLocation()
-  console.log(pathname)
   const urlLocation = pathname.split('/')
   useEffect(() => {
     setBreadcrumbActive(false)

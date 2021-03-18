@@ -16,6 +16,7 @@ const App = () => {
     dispatch(initializeSearch())
     const loadUser = storage.loadUser()
     if (loadUser) {
+      console.log(loadUser)
       dispatch(login(loadUser))
     }
   }, [dispatch])
