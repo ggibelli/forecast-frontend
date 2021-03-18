@@ -188,10 +188,12 @@ const EnhancedTableToolbar = (props) => {
     else
       removedSpot.removedIds.forEach((id) => {
         const spot = spots.find((s) => s.id === id)
-        dispatch(removeSurfspotMenu(spot))
+
         dispatch(removeCreated(id))
         dispatch(removeSurfspot(id))
         dispatch(setNotification('Surfspots deleted correctly'))
+        if (spot.isSecret) return
+        dispatch(removeSurfspotMenu(spot))
       })
     setSelected([])
   }

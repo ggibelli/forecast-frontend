@@ -21,6 +21,7 @@ import { setNotification } from '../reducers/notification'
 import {
   createSurfspotMenu,
   updateSurfspotMenu,
+  removeSurfspotMenu,
 } from '../reducers/nestedSurfspots'
 
 const useStyles = makeStyles((theme) => ({
@@ -141,7 +142,11 @@ const FormSpot = ({ spot }) => {
       dispatch(createSurfspot(responseSpot))
       dispatch(createSurfspotMenu(responseSpot))
     } else {
-      dispatch(updateSurfspotMenu(responseSpot))
+      if (responseSpot.name !== spot.name) {
+        dispatch(removeSurfspotMenu(spot))
+        dispatch(createSurfspotMenu(responseSpot))
+      }
+      // dispatch(updateSurfspotMenu(responseSpot))
       dispatch(updateSurfspot(responseSpot))
     }
     dispatch(setNotification(spot ? 'Spot edited' : 'New spot added'))

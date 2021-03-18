@@ -43,6 +43,7 @@ export const removeSurfspotMenu = (data) => ({
 
 const insertSpot = (array, action) => {
   const newArray = cloneDeep(array)
+  array.map((el) => console.log(el))
   const continentIndex = array.findIndex(
     (element) => element.name === action.data.continent.name,
   )
@@ -69,6 +70,10 @@ const removeSpot = (array, action) => {
   const regionIndex = array[continentIndex].countries[
     countryIndex
   ].regions.findIndex((element) => element.name === action.data.region.name)
+  console.log(
+    array[continentIndex].countries[countryIndex].regions[regionIndex],
+    action.data,
+  )
   const spotIndex = array[continentIndex].countries[countryIndex].regions[
     regionIndex
   ].surfSpots.findIndex((element) => element.id === action.data.id)
