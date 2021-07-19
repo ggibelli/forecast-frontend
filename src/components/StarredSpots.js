@@ -27,7 +27,6 @@ const StarredSpots = () => {
   const classes = useStyles()
   const user = useSelector((state) => state.currentUser)
   const profile = useSelector((state) => state.userProfile)
-  console.log(profile)
   const dispatch = useDispatch()
   useEffect(() => {
     if (user) dispatch(getProfile(user.id))

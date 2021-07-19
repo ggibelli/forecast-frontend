@@ -44,7 +44,6 @@ const UserProfile = () => {
       setProf(profile)
     }
   }, [profile])
-  console.log(prof)
 
   if (!prof) return null
   return (

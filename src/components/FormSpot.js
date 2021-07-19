@@ -20,7 +20,6 @@ import { createSurfspot, updateSurfspot } from '../reducers/allSpotsSearch'
 import { setNotification } from '../reducers/notification'
 import {
   createSurfspotMenu,
-  updateSurfspotMenu,
   removeSurfspotMenu,
 } from '../reducers/nestedSurfspots'
 
