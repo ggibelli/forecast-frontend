@@ -1,4 +1,21 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Surf forecast app client
+
+App that allows users to select a surf spot from the world map or search for it,
+and add a public or secret surf spot to the DB. I scraped existing surf websites for the surf spots info
+and I used a 3rd party API for the forecast data that is processed in NodeJS, and then I used ChartJS to visualize it. 
+
+## Technology used
+
+This app is built with React and Redux, I used MaterialUI as a framework, ChartJS to visualise the forecast data and LeafletMap for the world map.
+
+## Features
+
+- Users can signup 
+- Users can add surfspot, deciding if is public or secret
+- Users can remove single or multiple surfspot
+- Users can modify their own surfspots
+- Users save a surfspot
+- Users can use their GPS to get the closest surfspot location, search for it in the top bar or navigating the map.
 
 ## Available Scripts
 
