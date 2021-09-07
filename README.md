@@ -1,13 +1,14 @@
 # Surf forecast app front-end
 
 The app allows users to select a surf spot from the world map or look for it in the database,
-and add a public or secret surf spot to the DB. 
+and add a public or secret surf spot to the DB if they sign up and login. 
 I scraped existing surf websites for the surf spots info, such best wind direction, best swell direction, dangers..
 For the actual forecast I used a 3rd party API (https://stormglass.io), but first the data is processed on my server and served through a REST API, and then I used ChartJS to visualize it. 
 
 ## Technology used
 
-This app is built with React, Redux for the state managment, React-router for the routing, MaterialUI as a CSS framework, ChartJS to visualise the forecast data and LeafletMap for the world map.
+This app is built with React, Redux for the state managment, React-router for the routing, JWT token for the user-authorization, MaterialUI as a CSS framework, ChartJS to visualise the forecast data and LeafletMap for the world map.
+The app is tested using jest and react-testing-library.
 
 ## Features
 
