@@ -1,20 +1,21 @@
-# Surf forecast app client
+# Surf forecast app front-end
 
-App that allows users to select a surf spot from the world map or search for it,
-and add a public or secret surf spot to the DB. I scraped existing surf websites for the surf spots info
-and I used a 3rd party API for the forecast data that is processed in NodeJS, and then I used ChartJS to visualize it. 
+The app allows users to select a surf spot from the world map or look for it in the database,
+and add a public or secret surf spot to the DB. 
+I scraped existing surf websites for the surf spots info, such best wind direction, best swell direction, dangers..
+For the actual forecast I used a 3rd party API (https://stormglass.io), but first the data is processed on my server and served through a REST API, and then I used ChartJS to visualize it. 
 
 ## Technology used
 
-This app is built with React and Redux, I used MaterialUI as a framework, ChartJS to visualise the forecast data and LeafletMap for the world map.
+This app is built with React, Redux for the state managment, React-router for the routing, MaterialUI as a CSS framework, ChartJS to visualise the forecast data and LeafletMap for the world map.
 
 ## Features
 
 - Users can signup 
-- Users can add surfspot, deciding if is public or secret
+- Users can add surfspot, deciding if is public or secret, which means it's not showed on the map
 - Users can remove single or multiple surfspot
 - Users can modify their own surfspots
-- Users save a surfspot
+- Users save a surfspot in their favourites
 - Users can use their GPS to get the closest surfspot location, search for it in the top bar or navigating the map.
 
 ## Available Scripts
@@ -25,6 +26,7 @@ In the project directory, you can run:
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+You need to start the server first.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
@@ -53,33 +55,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
