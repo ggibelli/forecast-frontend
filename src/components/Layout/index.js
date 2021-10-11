@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Navigation from './Navigation'
+import Navigation from '../Navigation'
 import Footer from './Footer'
 
 const Layout = ({ children }) => (

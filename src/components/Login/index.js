@@ -11,10 +11,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { login } from '../reducers/login'
-import loginService from '../services/login'
-import { setNotification } from '../reducers/notification'
-import storage from '../utils/storage'
+import { login } from '../../reducers/login'
+import loginService from '../../services/login'
+import { setNotification } from '../../reducers/notification'
+import storage from '../../utils/storage'
 
 const useStyles = makeStyles((theme) => ({
   paper: {

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Line } from 'react-chartjs-2'
-import arrow from '../static/arrow.png'
-import convertDegrees from '../utils/degreesToDirection'
+import arrow from '../../static/arrow.png'
+import convertDegrees from '../../utils/degreesToDirection'
 
 const PeriodChart = ({ day, dataChart }) => {
   const chartPoint = new Image()

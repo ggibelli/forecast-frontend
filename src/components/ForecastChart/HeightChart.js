@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Bar } from 'react-chartjs-2'
-import convertDegrees from '../utils/degreesToDirection'
+import convertDegrees from '../../utils/degreesToDirection'
 
 const HeightChart = ({ day, dataChart }) => {
   const waveDirection = dataChart.forecastObject.map((forecast) =>

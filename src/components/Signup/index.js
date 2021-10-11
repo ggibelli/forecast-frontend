@@ -11,10 +11,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import storage from '../utils/storage'
-import { setNotification } from '../reducers/notification'
-import registrationService from '../services/registration'
-import { login } from '../reducers/login'
+import storage from '../../utils/storage'
+import { setNotification } from '../../reducers/notification'
+import registrationService from '../../services/registration'
+import { login } from '../../reducers/login'
 
 const useStyles = makeStyles((theme) => ({
   paper: {

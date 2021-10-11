@@ -7,9 +7,9 @@ import { render, fireEvent } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import FormSpot from './FormSpot'
-import spotsReducer from '../reducers/nestedSurfspots'
-import loginReducer from '../reducers/login'
-import formHelper from '../utils/formHelper'
+import spotsReducer from '../../reducers/nestedSurfspots'
+import loginReducer from '../../reducers/login'
+import formHelper from '../../utils/formHelper'
 
 jest.mock('../utils/formHelper')
 

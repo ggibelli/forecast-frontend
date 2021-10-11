@@ -6,8 +6,8 @@ import thunk from 'redux-thunk'
 import { render } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import EditSpot from './EditSpot'
-import spotReducer from '../reducers/spotDetail'
+import EditSpot from './index'
+import spotReducer from '../../reducers/spotDetail'
 
 jest.mock('./FormSpot', () => () => <div>form</div>)
 

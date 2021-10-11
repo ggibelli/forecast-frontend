@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import { getProfile } from '../reducers/userDetail'
+import { getProfile } from '../../reducers/userDetail'
 import TableSpotProfile from './TableSpotsProfile'
 
 const useStyles = makeStyles((theme) => ({

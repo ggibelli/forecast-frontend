@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Line } from 'react-chartjs-2'
-import arrow from '../static/windArrow.png'
-import arrowCalm from '../static/windArrowCalm.png'
-import arrowMedium from '../static/windArrowMedium.png'
-import arrowStrong from '../static/windArrowStrong.png'
-import convertDegrees from '../utils/degreesToDirection'
+import arrow from '../../static/windArrow.png'
+import arrowCalm from '../../static/windArrowCalm.png'
+import arrowMedium from '../../static/windArrowMedium.png'
+import arrowStrong from '../../static/windArrowStrong.png'
+import convertDegrees from '../../utils/degreesToDirection'
 
 const WindChart = ({ day, dataChart }) => {
   const chartPoint = new Image()

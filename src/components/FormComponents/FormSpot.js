@@ -11,17 +11,17 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import customHooks from '../utils/customHooks'
+import customHooks from '../../utils/customHooks'
 import SimpleTextField from './SimpleTextField'
 import SimpleRadioField from './SimpleRadioField'
 import MultipleSelectField from './MultipleSelectField'
-import formHelper from '../utils/formHelper'
-import { createSurfspot, updateSurfspot } from '../reducers/allSpotsSearch'
-import { setNotification } from '../reducers/notification'
+import formHelper from '../../utils/formHelper'
+import { createSurfspot, updateSurfspot } from '../../reducers/allSpotsSearch'
+import { setNotification } from '../../reducers/notification'
 import {
   createSurfspotMenu,
   removeSurfspotMenu,
-} from '../reducers/nestedSurfspots'
+} from '../../reducers/nestedSurfspots'
 
 const useStyles = makeStyles((theme) => ({
   paper: {

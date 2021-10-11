@@ -22,14 +22,14 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink, useHistory } from 'react-router-dom'
-import { updateSurfspot, removeSurfspot } from '../reducers/allSpotsSearch'
+import { updateSurfspot, removeSurfspot } from '../../reducers/allSpotsSearch'
 import {
   updateSurfspotMenu,
   removeSurfspotMenu,
-} from '../reducers/nestedSurfspots'
-import { removeCreated } from '../reducers/userDetail'
-import { setNotification } from '../reducers/notification'
-import formHelper from '../utils/formHelper'
+} from '../../reducers/nestedSurfspots'
+import { removeCreated } from '../../reducers/userDetail'
+import { setNotification } from '../../reducers/notification'
+import formHelper from '../../utils/formHelper'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {

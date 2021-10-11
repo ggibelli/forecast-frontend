@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Skeleton from '@material-ui/lab/Skeleton'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
-import '../index.css'
+import '../../index.css'
 import { useParams, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { usePosition } from 'use-position'
-import { fetchMap } from '../reducers/maps'
-import { setNotification } from '../reducers/notification'
-import distanceHelper from '../utils/findNearestSpot'
+import { fetchMap } from '../../reducers/maps'
+import { setNotification } from '../../reducers/notification'
+import distanceHelper from '../../utils/findNearestSpot'
 
 export default function MapComponent() {
   const dispatch = useDispatch()

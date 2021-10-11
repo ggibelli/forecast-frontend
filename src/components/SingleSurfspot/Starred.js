@@ -4,8 +4,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import StarBorderIcon from '@material-ui/icons/StarBorder'
 import StarIcon from '@material-ui/icons/Star'
-import { addStarSpot, removeStarSpot, getProfile } from '../reducers/userDetail'
-import { setNotification } from '../reducers/notification'
+import {
+  addStarSpot,
+  removeStarSpot,
+  getProfile,
+} from '../../reducers/userDetail'
+import { setNotification } from '../../reducers/notification'
 
 // i need to add the full spot and not only the id to make it work again.. that's why i need test
 const Starred = ({ spotId }) => {

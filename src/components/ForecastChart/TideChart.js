@@ -11,8 +11,8 @@ const TideChart = ({ day }) => {
   const tidesForTheDay = tides?.filter((hour) => hour.time.includes(day))
 
   const tideLabels = tidesForTheDay?.map((tide) =>
-        tide.time.split('T')[1].split('+')[0].substring(0, 5),
-      )
+    tide.time.split('T')[1].split('+')[0].substring(0, 5),
+  )
   const tideHeights = tidesForTheDay?.map((tide) => tide.height.toFixed(2))
 
   const tideType = tidesForTheDay?.map((tide) => tide.type)

@@ -5,7 +5,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import FormSpot from './FormSpot'
+import FormSpot from '../FormComponents/FormSpot'
 
 const useStyles = makeStyles((theme) => ({
   paper: {

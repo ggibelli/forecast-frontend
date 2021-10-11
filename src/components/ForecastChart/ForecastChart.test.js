@@ -2,10 +2,10 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { render, fireEvent } from '@testing-library/react'
-import { forecast } from '../utils/forecastDataTest'
+import { forecast } from '../../utils/forecastDataTest'
 
-import ForecastChart from './ForecastChart'
-import forecastReducer from '../reducers/forecastSpot'
+import ForecastChart from './index'
+import forecastReducer from '../../reducers/forecastSpot'
 
 jest.mock('./WindChart', () => () => <div>WindChart</div>)
 jest.mock('./TideChart', () => () => <div>ChartTide</div>)
